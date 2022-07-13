@@ -18,6 +18,10 @@ function getParentClass() {
 // 可求值的表达式
 class Bus extends getParentClass() {}
 
+let bus = new Bus();
+console.log(bus instanceof getParentClass);
+console.log(bus instanceof Vehicle);
+
 
 
 
