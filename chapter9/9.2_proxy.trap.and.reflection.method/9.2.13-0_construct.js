@@ -24,4 +24,5 @@ let proxy = new Proxy(myTarget, {
     }
 });
 
-new proxy();
+let result = new proxy();
+console.log(result);
