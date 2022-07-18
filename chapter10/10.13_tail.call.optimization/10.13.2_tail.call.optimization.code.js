@@ -10,7 +10,6 @@ function fib(n) {
     }
     return fib(n - 1) + fib(n - 2);
 }
-
 console.log(fib(0));
 console.log(fib(1));
 console.log(fib(2));
@@ -19,7 +18,6 @@ console.log(fib(4));
 console.log(fib(5));
 console.log(fib(6));
 
-console.log(fib(1000));
 /**
  * 显然这部符合尾调用优化的条件, 因为返回语句中有一个相加操作
  * 
@@ -29,7 +27,6 @@ console.log(fib(1000));
  * 
  * 在严格模式下执行: "use strict"
  */
-
 function fibo(n) {
     return fiboImpl(0, 1, n);
 }
