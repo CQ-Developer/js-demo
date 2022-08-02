@@ -1,0 +1,52 @@
+<html>
+    <head>
+        <title>page title</title>
+    </head>
+    <body></body>
+    <script>
+        /**
+         * 14.1.2.2 文档信息
+         * 
+         * document 作为 HTMLDocument 的实例, 还有一些标准 Document 对象上所没有的属性.
+         * 这些属性提供浏览器所加载网页的信息.
+         * 其中第一个属性是 title, 包含 <title> 元素中的文本, 通常显示在浏览器窗口或标签页的标题栏.
+         * 通过这个属性可以读写页面的标题, 修改后的标题也会反映在浏览器标题栏上.
+         * 不过, 修改 title 属性并不会改变 <title> 元素.
+         */
+        let originalTitle = document.title;
+        console.log(`title = ${originalTitle}`);
+
+        document.title = "New page title";
+
+        /**
+         * 接下来的3个属性是 URL, domain, referrer.
+         * 其中 URL 包含当前页面完整 URL(地址栏中的URL), domain 包含页面的域名, referrer 包含链接到当前页面的那个页面的 URL.
+         * 如果当前页面没有来源, 则 referrer属性包含空字符串.
+         * 所有这些信息都可以在请求的 HTTP 头部信息中获取, 只是在 JS 中通过这几个属性暴露出来而已.
+         */
+        let url = document.URL;
+        console.log(`url = ${url}`);
+
+        let domain = document.domain;
+        console.log(`domain = ${domain}`);
+
+        let referer = document.referrer;
+        console.log(`referer = ${referer}`);
+
+        /**
+         * 这些属性中, 只有 domain 属性是可以设置的.
+         * 处于安全考虑, 给 domain 属性设置的值是有限制的.
+         * 如果 URL 包含子域名如 p2p.wrox.com, 则可以将 domain 设置为 wrox.com
+         * 不能给这个属性设置 URL 中不包含的值.
+         */
+        document.domain = "wrox.com";      // 成功
+        document.domain = "nczonline.net"; // 报错
+
+        /**
+         * 浏览器对domain属性还有一个限制, 即这个属性一旦放松就不能再收紧.
+         * 比如, 把 document.domain 设置为 wrox.com 之后, 就不能再将其设置回 p2p.wrox.com
+         */
+        document.domain = "wrox.com";
+        document.domain = "p2p.wrox.com";
+    </script>
+</html>
