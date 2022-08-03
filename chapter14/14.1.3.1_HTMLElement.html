@@ -1,0 +1,34 @@
+<html>
+    <body>
+        <div id="myDiv" class="bd" title="Body text" lang="en" dir="ltr">div</div>
+    </body>
+
+    <!-- 14.1.3.1 HTML元素 -->
+    <script>
+        /**
+         * 所有HTML元素都通过HTMLElement类型表示, 包括其直接实例和间接实例.
+         * 另外, HTMLElement直接继承Element并增加了一些属性.
+         * 每个属性都对应下列属性之一, 它们是所有HTML元素上都有的标准属性.
+         * id: 元素在文档中的唯一标识符
+         * title: 包含元素的额外信息, 通常以提示条形式展示
+         * lang: 元素内容的语言代码
+         * dir: 语言的书写方向
+         * className: 相当于class属性, 用于指定元素的CSS类
+         */
+        let div = document.getElementById("myDiv");
+
+        // 所有这些都可以用来获取对应的属性值, 也可以用来修改相应的值.
+        console.log(div.id);
+        console.log(div.className);
+        console.log(div.title);
+        console.log(div.lang);
+        console.log(div.dir);
+
+        // 可以使用下列代码修改元素的属性
+        div.id = "someOtherId";
+        div.className = "ft";
+        div.title = "Some other text";
+        div.lang = "fr";
+        div.dir = "rtl";
+    </script>
+</html>
