@@ -1,0 +1,37 @@
+<html>
+    <body>
+        <div id="myDiv">myDiv</div>
+    </body>
+    <script>
+        /**
+         * 14.1.3 Element类型
+         * 
+         * 除了Document类型, Element类型就是Web开发中最常用的类型.
+         * Element表示XML和HTML元素, 对外暴露出访问元素标签名, 子节点和属性的能力.
+         * 
+         * Element类型的节点具有以下特征:
+         *  1. nodeType等于1
+         *  2. nodeName值为元素的标签名
+         *  3. nodeValue值为null
+         *  4. parentNode值为Document或Element对象
+         *  5. 子节点可以是Element, Text, Comment, ProcessingInstruction, CDATASection, EntityReference类型
+         * 
+         * 可以通过nodeName或tagName属性来获取元素的标签名.
+         * 这两个属性返回同样的值
+         */
+        let div = document.getElementById("myDiv");
+        console.log(div.tagName);
+        console.log(div.tagName == div.nodeName);
+
+        /**
+         * 在HTML中, 元素标签名始终以全大写表示.
+         * 在XML中, 标签名始终与源代码中的大小写一直.
+         */
+        if (div.tagName == "div") {
+            // 不推荐, 可能出错
+        }
+        if (div.tagName.toLowerCase() == "div") {
+            // 推荐, 适用于所有文档
+        }
+    </script>
+</html>
