@@ -1,0 +1,40 @@
+<html>
+    <body></body>
+
+    <!-- 14.1.2.5 DOM兼容性检测
+        由于DOM有多个Level和多个部分, 因此确定浏览器实现了DOM的哪些部分是很有必要的.
+        document.implementation属性是一个对象, 其中提供了与浏览器DOM实现相关的信息和能力.
+        DOM Level 1 在document.implementation上只定义了一个方法, hasFuture().
+        该方法接收两个参数: 特性名称, DOM版本.
+        如果浏览器支持指定的特性和版本, 则hasFuture()方法返回true.
+
+        由于实现不一致, 因此hasFuture()的返回值并不可靠.
+        目前这个方法已经被废弃, 不再建议试用.
+        为了向后兼容, 目前主流浏览器仍然支持这个方法, 但无论检测什么都一律返回true.
+    -->
+    <script>
+        // 可以试用hasFuture()方法测试的特性及版本如下表所列.
+        //    [ 特性 ]                [ 支持的版本 ]     [ 说明 ]
+        //  1. Core                   1.0 2.0 3.0      定义树形文档结构的基本DOM
+        //  2. XML                    1.0 2.0 3.0      Core的XML扩展, 增加了对CDATA区块, 处理指令和实体的支持
+        //  3. HTML                   1.0 2.0          XML的HTML扩展, 增加了HTML特定的元素和实体
+        //  4. Views                  2.0              文档基于某些样式的实现格式
+        //  5. StyleSheets            2.0              文档的相关样式表
+        //  6. CSS                    2.0              Cascading Style Sheets Level 1
+        //  7. CSS2                   2.0              Cascading Style Sheets Level 2
+        //  8. Events                 2.0 3.0          通用DOM事件
+        //  9. UIEvents               2.0 3.0          用户界面事件
+        // 10. TextEvents             3.0              文本输入设备触发的事件
+        // 11. MouseEvents            3.0              鼠标导致的事件
+        // 12. MutationEvents         2.0 3.0          DOM树变化时触发的事件
+        // 13. MutationNameEvents     3.0              DOM元素或元素属性被重命名时触发的事件
+        // 14. HTMLEvents             2.0              HTML4.01事件
+        // 15. Range                  2.0              在DOM树中操作一定范围的对象和方法
+        // 16. Traversal              2.0              遍历DOM树的方法
+        // 17. LS                     3.0              文件与DOM树之间的同步加载与保存
+        // 18. LS-Async               3.0              文件与DOM树之间的异步加载与保存
+        // 19. Validation             3.0              修改DOM树并保证其继续有效的方法
+        // 20. XPath                  3.0              方法XML文档不同部分的语言
+        let hasXmlDom = document.implementation.hasFeature("XML", "1.0");
+    </script>
+</html>
