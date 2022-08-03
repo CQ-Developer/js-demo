@@ -1,0 +1,22 @@
+<html>
+    <head>
+        <title>document.write()</title>
+    </head>
+    <body>
+        <p>
+            The current date and time is:
+            <script>
+                /**
+                 * 14.1.2.6 文档写入
+                 * 
+                 * document对象有一个古老的能力, 向网页输出流中写入内容.
+                 * 这个能力对应4个方法: write(), writeln(), open(), close().
+                 * 其中, write()和writeln()方法都接收一个字符串参数, 可以将这个字符串写入网页中.
+                 * write()简单地写入文本, 而writeln()还会在字符串末尾追加一个换行符(\n).
+                 * 这两个方法可以用来在页面加载期间向页面中动态添加内容.
+                 */
+                document.write(`<strong>${new Date().toString()}</strong>`);
+            </script>
+        </p>
+    </body>
+</html>
