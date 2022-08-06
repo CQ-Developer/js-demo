@@ -1,0 +1,24 @@
+<html>
+    <body>
+        <!-- 14.1.4.1 创建文本节点 -->
+        <script>
+            // document.createTextNode()可以用来创建文本节点, 接收一个参数即要插入节点的文本.
+            // 这些插入的文本会应用HTML或XML编码.
+            let textNode = document.createTextNode("<strong>hello</strong> world!");
+
+            // 创建文本节点后, 其ownerDocument属性会被设置为document.
+            // 但在把这个节点添加到文档树之前, 不会再浏览器中看到他.
+            let element = document.createElement("div");
+            element.className = "message";
+
+            let t1 = document.createTextNode("hello world!");
+            element.appendChild(t1);
+
+            // 一般来说, 一个节点只包含一个文本节点, 但也可以添加多个
+            let t2 = document.createTextNode("Yippee!");
+            element.appendChild(t2);
+
+            document.body.appendChild(element);
+        </script>
+    </body>
+</html>
