@@ -1,6 +1,32 @@
 <html>
     <body>
         <!-- 14.1.4.2 规范化文本节点 -->
-        <script></script>
+        <script>
+            // DOM文档中的同胞文本节点可能导致困惑, 因为一个文本节点总以表示一个文本字符串.
+            // DOM文档中经常也会出现两个相邻文本节点.
+            // 为此, 有一个方法可以合并相邻的文本节点.
+            // 这个方法叫normalize(), 是Node类型中定义的, 因此所有类型的节点上都有这个方法.
+            // 在包含两个或多个相邻文本节点的父节点上调用normalize()时, 所有同胞文本节点都会被合并为一个文本节点.
+            // 这个文本节点的nodeValue就等于之前所有同胞节点nodeValue拼接在一起得到的字符串.
+            let element = document.createElement("div");
+            element.className = "message";
+
+            let textNode1 = document.createTextNode("hello world");
+            element.appendChild(textNode1);
+
+            let textNode2 = document.createTextNode("Yippee!");
+            element.appendChild(textNode2);
+
+            document.body.appendChild(element);
+
+            console.log(element.childNodes.length);
+
+            // 浏览器在解析文档时, 永远不会创建同胞文本节点.
+            // 同胞文本节点只会出现在DOM脚本生成的文档树中.
+            element.normalize();
+
+            console.log(element.childNodes.length);
+            console.log(element.firstChild.nodeValue);
+        </script>
     </body>
 </html>
