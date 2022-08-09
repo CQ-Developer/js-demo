@@ -1,0 +1,25 @@
+<html>
+    <body>
+        <!-- 14.3.1.2 回调与MutationRecord -->
+        <script>
+            // 每个回调都会收到一个MutationRecord实例的数组.
+            // MutationRecord实例包含的信息包括发生了什么变化, 以及DOM的那一部分收到了影响.
+            // 因为回调执行之前可能同时发生多个满足条件的事件, 所以每次执行回调都会传入一个包含按顺序入队的MutationRecord实例的数组
+            // MutationRecord涉及的属性: ...
+
+            // 反映属性变化的MutationRecord实例的数组
+            let observer = new MutationObserver(mrs => console.log(mrs));
+            observer.observe(document.body, { attributes: true });
+
+            // 一次涉及命名空间的类似变化
+            document.body.setAttributeNS("baz", "foo", "bar");
+
+            // 连续修改会生成多个MutationRecord实例,
+            // 下次回调执行时就会收到包含所有这些实例的数组,
+            // 顺序为变化时间发生的顺序.
+            document.body.className = "foo";
+            document.body.className = "bar";
+            document.body.className = "baz";
+        </script>
+    </body>
+</html>
