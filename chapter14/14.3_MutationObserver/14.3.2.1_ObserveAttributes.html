@@ -1,0 +1,40 @@
+<html>
+    <body>
+        <!-- 14.3.2.1 观察属性 -->
+        <script>
+            // MutationObserver可以观察节点属性的添加, 移除, 修改.
+            // 要为属性变化注册回调, 需要在MutationObserverInit对象中将attributes属性设置为true.
+            let observer = new MutationObserver(rds => console.log(rds));
+            observer.observe(document.body, { attributes: true });
+
+            // 添加属性
+            document.body.setAttribute("foo", "bar");
+
+            // 修改属性
+            document.body.setAttribute("foo", "baz");
+
+            // 移除属性
+            document.body.removeAttribute("foo");
+
+            // 把attributes设置为true的默认行为是观察所有属性, 但不会在MutationRecord对象中记录原来的属性.
+            // 如果想观察某个或某几个属性, 可以使用attributeFilter属性来设置白名单.
+            observer.observe(document.body, { attributeFilter: ["foo"] });
+
+            // 添加白名单属性
+            document.body.setAttribute("foo", "bar");
+
+            // 添加非白名单属性
+            document.body.setAttribute("baz", "qux");
+
+            // 如果想在变化记录中保存属性原来的值,
+            // 可以将attributeOldValue属性设置为true
+            document.body.removeAttribute("foo");
+            let observerA = new MutationObserver(rds => console.log(rds.map(r => r.oldValue)));
+            observerA.observe(document.body, { attributeOldValue: true });
+
+            document.body.setAttribute("foo", "bar");
+            document.body.setAttribute("foo", "baz");
+            document.body.setAttribute("foo", "qux");
+        </script>
+    </body>
+</html>
