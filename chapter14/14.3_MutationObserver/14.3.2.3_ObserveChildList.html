@@ -1,0 +1,26 @@
+<html>
+    <head></head>
+    <body>
+        <!-- 14.3.2.3 观察子节点 -->
+        <script>
+            // MutationObserver可以观察目标节点子节点的添加和移除.
+            // 要观察子节点, 需要再MutationObserverInit对象中将childList属性设置为true.
+            let obsA = new MutationObserver(rds => console.log(rds));
+            obsA.observe(document.body, { childList: true });
+
+            // 添加子节点
+            let div = document.createElement("div");
+            document.body.appendChild(div);
+
+            // 移除子节点
+            document.body.removeChild(div);
+
+            // 对子节点重新排序会报告两次变化事件,
+            // 因为从技术上会涉及先移除和再添加
+            document.body.innerHTML = "";
+            document.body.appendChild(document.createElement("div"));
+            document.body.appendChild(document.createElement("span"));
+            document.body.insertBefore(document.body.lastChild, document.body.firstChild);
+        </script>
+    </body>
+</html>
