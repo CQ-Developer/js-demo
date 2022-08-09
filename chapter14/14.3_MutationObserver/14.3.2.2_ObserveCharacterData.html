@@ -1,0 +1,37 @@
+<html>
+    <body>
+        <!-- 14.3.2.2 观察字符数据 -->
+        <script>
+            // MutationObserver可以观察文本节点中字符的添加, 删除, 修改.
+            // 文本节点包含: Text, Comment, ProcessingInstruction
+            // 要为字符数据注册回调, 需要在MutationObserverInit对象中将characterData属性设置为true.
+            let obA = new MutationObserver(rds => console.log("observerA", rds));
+
+            // 创建要观察的文本节点
+            document.body.firstChild.textContent = "foo";
+            obA.observe(document.body.firstChild, { characterData: true });
+
+            // 复制为相同的字符串
+            document.body.firstChild.textContent = "foo";
+
+            // 赋值为新字符串
+            document.body.firstChild.textContent = "bar";
+
+            // 通过节点设置函数赋值
+            document.body.firstChild.textContent = "baz";
+            setTimeout(() => obA.disconnect(), 0);
+
+            // 将characterData属性设置为true的默认行为不会在MutationRecord对象中记录原来的字符串数据.
+            // 如果想在变化记录中保存原来的字符数据, 可以将characterDataOldValue属性设置为true.
+            let obB = new MutationObserver(rds => console.log("observerB", rds.map(r => r.oldValue)));
+
+            document.body.firstChild.textContent = "foo";
+            obB.observe(document.body.firstChild, { characterDataOldValue: true });
+
+            document.body.firstChild.textContent = "foo";
+            document.body.firstChild.textContent = "bar";
+            document.body.firstChild.textContent = "baz";
+            setTimeout(() => obB.disconnect(), 0);
+        </script>
+    </body>
+</html>
