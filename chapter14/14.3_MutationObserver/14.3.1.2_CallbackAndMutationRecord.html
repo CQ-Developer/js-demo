@@ -20,6 +20,11 @@
             document.body.className = "foo";
             document.body.className = "bar";
             document.body.className = "baz";
+
+            // 传给回调函数的第二个参数是观察变化的MutationObserver的实例
+            let observerA = new MutationObserver((mRecords, mObserver) => console.log(mRecords, mObserver));
+            observerA.observe(document.body, { attributes: true });
+            document.body.className = "foo";
         </script>
     </body>
 </html>
