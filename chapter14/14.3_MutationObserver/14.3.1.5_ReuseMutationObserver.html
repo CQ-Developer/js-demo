@@ -1,0 +1,28 @@
+<html>
+    <body>
+        <!-- 14.3.1.5 重用MutationObserver -->
+        <script>
+            // 调用disconnect()并不会结束MutationObserver的生命.
+            // 还可以重新使用这个观察者, 再将它关联到新的目标节点.
+
+            // 先断开再恢复观察者与<body>元素的关联
+            let observer = new MutationObserver(() => console.log("<body> attributes chanaged"));
+            observer.observe(document.body, { attributes: true });
+
+            // 触发变化事件
+            document.body.setAttribute("foo", "bar");
+
+            setTimeout(() => {
+                observer.disconnect();
+                // 不会触发变化事件
+                document.body.setAttribute("bar", "baz");
+            }, 0);
+
+            setTimeout(() => {
+                observer.observe(document.body, { attributes: true });
+                // 会触发变化事件
+                document.body.setAttribute("baz", "qux");
+            }, 0);
+        </script>
+    </body>
+</html>
