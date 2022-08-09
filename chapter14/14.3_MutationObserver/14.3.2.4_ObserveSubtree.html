@@ -1,0 +1,43 @@
+<html>
+    <head></head>
+
+    <!-- 14.3.2.3 观察子树 -->
+    <body>
+        <script>
+            // 默认情况下, MutationObserver将观察的范围限定为一个元素及其子节点的变化.
+            // 可以把观察的范围扩展到这个元素的子树, 也就是所有后代节点.
+            // 这需要再MutationObserverInit对象中将subtree属性设置为true.
+            document.body.innerHTML = "";
+            let obsA = new MutationObserver(rds => console.log(rds));
+
+            // 创建一个后代
+            document.body.appendChild(document.createElement("div"));
+
+            // 观察<body>元素及其子树
+            obsA.observe(document.body, { attributes: true, subtree: true });
+
+            // 修改<body>元素的子树
+            document.body.firstChild.setAttribute("foo", "bar");
+
+            // 被观察子树中的节点被移除子树之后仍然能够触发变化事件.
+            // 这意味着在子树中的节点离开该子树后, 即使严格来讲该节点已经脱离了原来的子树, 但它仍然会触发变化事件.
+            document.body.innerHTML = "";
+            let obsB = new MutationObserver(rds => console.log("obsB", rds));
+
+            let subtreeRoot = document.createElement("div");
+            let subtreeLeaf = document.createElement("span");
+
+            // 创建包含两层的子树
+            document.body.appendChild(subtreeRoot);
+            subtreeRoot.appendChild(subtreeLeaf);
+
+            // 观察子树
+            obsB.observe(subtreeRoot, { attributes: true, subtree: true });
+
+            // 把节点转移到其他子树
+            document.body.insertBefore(subtreeLeaf, subtreeRoot);
+
+            subtreeLeaf.setAttribute("foo", "bar");
+        </script>
+    </body>
+</html>
