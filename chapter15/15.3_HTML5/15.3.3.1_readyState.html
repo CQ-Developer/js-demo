@@ -1,0 +1,20 @@
+<html>
+    <head></head>
+    <body>
+        <!-- 15.3.3.1 readyState属性
+            document.readyState属性有两个值
+            1. loading: 表示文档正在加载
+            2. complete: 表示文档加载完成
+
+            实际开发中, 把document.readyState当成一个指示器, 判断文档是否加载完成.
+            在这个属性得到广泛支持之前, 通常要以来onload事件处理程序设置一个标记, 表示文档加载完成了.
+        -->
+        <script>
+            if (document.readyState == "complete") {
+                console.log("document loading completed");
+            } else {
+                console.log("document loading not completed");
+            }
+        </script>
+    </body>
+</html>
