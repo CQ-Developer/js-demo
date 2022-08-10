@@ -1,0 +1,19 @@
+<html>
+    <head></head>
+    <body>
+        <!-- 15.3.3.2 compatMode属性
+            自从IE6提供了以标准或混杂模式渲染页面的功能之后, 检测页面渲染模式成为一个必要的需求.
+            document添加了compatMode属性, 这个属性指示当前浏览器处于什么渲染模式.
+            标准模式下documetn.compatMode的值为CSS1Compat
+            混杂模式下document.compatMode的值为BackCompat
+        -->
+        <script>
+            // HTML5将compatMode属性的实现标准化了
+            if (document.compatMode == "CSS1Compat") {
+                console.log("Standards mode");
+            } else {
+                console.log("Quirks mode");
+            }
+        </script>
+    </body>
+</html>
