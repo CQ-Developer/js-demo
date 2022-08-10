@@ -1,0 +1,46 @@
+<html>
+    <head></head>
+    <body>
+        <!-- 15.2 元素遍历 -->
+        <script>
+            // IE9 之前的版本不会把元素间的空格当成空白节点, 其他浏览器会.
+            // 这导致了 childNodes 和 firstChild 等属性上的差异.
+            
+            // 为了弥补差异同时不影响 DOM 规范, W3C 通过了新的 Element Traversal 规范.
+            // Element Traversal API 为 DOM 元素添加了 5 个属性
+            // 1.childElementCount: 返回子元素数量, 包括文本节点和注释
+            // 2.firstElementChild: 指向第一个 Element 类型的子元素
+            // 3.lastElementChild: 指向最后一个 Element 类型的子元素
+            // 4.previousElementSibling: 之前前一个 Element 类型的同胞元素
+            // 5.nextElementSibling: 指向后一个 Element 类型的同胞元素
+
+            // 过去要以跨浏览器方式遍历特定元素的所有子元素, 代码大致如下
+            let parentElement = document.getElementById("parent");
+            let currentChildNode = parentElement.firstChild;
+            function processChild(node) {}
+
+            // 没有子元素, firstChild 返回 null, 跳过循环
+            while (currentChildNode) {
+                if (currentChildNode.nodeType === Node.ELEMENT_NODE) {
+                    // 如果有元素节点, 则做相应处理
+                    processChild(currentChildNode);
+                }
+                if (currentChildNode === parentElement.lastChild) {
+                    break;
+                }
+                currentChildNode = currentChildNode.nextSibling;
+            }
+
+            // 使用 Element Traversal 属性之后, 简化代码如下
+            let currentChildElement = parentElement.firstElementChild;
+            while (currentChildElement) {
+                // 这就是元素系欸但, 做相应处理
+                processChild(currentChildElement);
+                if (currentChildElement == parentElement.lastElementChild) {
+                    break;
+                }
+                currentChildElement = currentChildElement.nextElementSibling;
+            }
+        </script>
+    </body>
+</html>
