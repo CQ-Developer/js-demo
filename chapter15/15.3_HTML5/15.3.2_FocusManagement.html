@@ -1,0 +1,22 @@
+<html>
+    <head></head>
+    <body>
+        <div id="myDiv"></div>
+        
+        <!-- 15.3.2 焦点管理
+            document.activeElement始终包含当前拥有焦点的DOM元素.
+            页面加载时, 可以通过用户输入让某个元素自动获得焦点.
+            默认情况下, document.activeElement在页面刚加载完之后会设置为document.body
+            在页面完全加载之前, document.activeElement的值为null
+        -->
+        <script>
+            // 让元素获取焦点
+            let div = document.getElementById("myDiv");
+            div.focus();
+            console.log(document.activeElement === div);
+
+            // 判断文档是否有用焦点
+            console.log(document.hasFocus());
+        </script>
+    </body>
+</html>
