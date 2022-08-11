@@ -1,0 +1,35 @@
+<html>
+    <head></head>
+    <body>
+        <div id="myDiv" data-appId="12345" data-myname="Nicholas" data-my-age="30"></div>
+
+        <!-- 15.3.5 自定义数据属性
+            
+            HTML5允许给元素指定非标准属性, 使用"data-"作为前缀告诉浏览器这些属性与渲染和语义无关.
+            除了前缀, 自定义属性对命名是没有限制的, "data-"后面跟什么都可以.
+
+            有了自定义数据属性后, 可以通过元素的dataset属性访问.
+            dataset属性是一个DOMStringMap实例, 包含一组键值对映射.
+            元素的每个data-name属性在dataset中都可以通过data-后面的字符串作为键来访问.
+            注意, data-myname可以通过myname访问, 但data-my-name或data-My-Name要通过myName访问.
+        -->
+        <script>
+            let div = document.getElementById("myDiv");
+            console.log(div.dataset);
+
+            // 取得自定义数据属性
+            let appId = div.dataset.appId;
+            let myname = div.dataset.myname;
+            let myAge = div.dataset.myAge;
+
+            // 设置自定义属性的值
+            div.dataset.appId = 23456;
+            div.dataset.myname = "Michael";
+
+            // 有myname吗
+            if (div.dataset.myname) {
+                console.log(`Hello, ${div.dataset.myname}`);
+            }
+        </script>
+    </body>
+</html>
