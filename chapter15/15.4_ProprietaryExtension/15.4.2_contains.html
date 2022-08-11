@@ -22,6 +22,12 @@
     <script>
         // <html>元素是否包含<body>元素
         console.log(document.documentElement.contains(document.body));
+
+        // 要模仿contains()方法, 需要用到掩码16(0x10).
+        // compareDocumentPosition()方法的结果可以通过按位与来确认参考节点是否包含传入的节点.
+        let result = document.documentElement.compareDocumentPosition(document.body);
+        console.log(result);
+        console.log(!!(result & 0x10));
     </script>
 </body>
 
