@@ -1,0 +1,28 @@
+<html>
+
+<head></head>
+
+<body>
+    <!-- 15.4.2 contains()方法
+
+        DOM变成中经常需要确定一个元素是不是另一个元素的后代.
+        IE首先引入contains()方法, 让开发者可以在不遍历DOM的情况下获取这个属性.
+        如果目标节点是被搜索节点的后代, contains()返回true, 否则返回false.
+
+        使用DOM Level 3的compareDocumentPosition()方法也可以确定节点间的关系.
+        这个方法返回表示两个节点关系的位掩码.
+
+        位掩码说明
+        - 0x1 : 断开(传入节点不在文档中)
+        - 0x2 : 领先(传入的节点在DOM树中位于参考节点之前)
+        - 0x4 : 随后(传入的节点在DOM树中位于参考节点之后)
+        - 0x8 : 包含(传入节点是包含节点的祖先)
+        - 0x10: 被包含(传入节点是参考节点的后代)
+    -->
+    <script>
+        // <html>元素是否包含<body>元素
+        console.log(document.documentElement.contains(document.body));
+    </script>
+</body>
+
+</html>
