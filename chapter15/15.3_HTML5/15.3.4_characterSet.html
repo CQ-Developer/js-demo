@@ -1,0 +1,14 @@
+<html>
+    <head></head>
+    <body>
+        <!-- 15.3.4 字符集属性
+            HTML5增加了几个与文档字符集相关的属性.
+            characterSet属性表示文档实际试用的字符集,也可以用来指定新的字符集.
+            默认值UTF-16, 可以通过<meta>元素或相应头,以及新增的characterSet属性来修改.
+        -->
+        <script>
+            console.log(document.characterSet);
+            document.characterSet = "UTF-8";
+        </script>
+    </body>
+</html>
