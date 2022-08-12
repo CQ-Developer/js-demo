@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Computed Styles Example</title>
+    <style type="text/css">
+        #myDiv {
+            background-color: blue;
+            width: 100px;
+            height: 200px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="myDiv" style="background-color: red; border: 1px solid black;"></div>
+    
+    <!-- 16.2.1.2 计算样式
+    
+        style对象包含元素style属性设置的样式信息, 但不包含从层叠样式中继承的样式信息
+        
+        DOM2 Style在document.defaultView上增加了getComputedStyle()方法
+        接受2个参数: 要取得计算样式的元素, 伪元素字符串
+        如果不需要查询为元素, 第二个参数传null
+        getComputedStyle()方法返回一个CSSStyleDeclaration对象, 包含元素的计算样式
+
+        关于计算属性要记住一点, 所有浏览器中计算样式都是只读的, 不能修改getComputedStyle()方法返回的对象
+        而且, 计算样式还包含浏览器内部样式中的信息, 因此有默认值的CSS属性会出现在计算样式里
+    -->
+    <script>
+        // <div>元素从文档样式表(<style>标签)和自己的style属性获取了样式
+        // 此时, <div>元素的style对象中包含backgroundColor和border属性
+        // 但不包含width和height属性
+        // 从元素获取计算样式
+        let myDiv = document.getElementById("myDiv");
+        let computedStyle = document.defaultView.getComputedStyle(myDiv, null);
+        console.log(computedStyle.backgroundColor);
+        console.log(computedStyle.width);
+        console.log(computedStyle.height);
+        console.log(computedStyle.border);
+    </script>
+</body>
+
+</html>
