@@ -1,0 +1,27 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head></head>
+
+<body>
+    <!-- 16.1.1.2 Document的变化
+    
+        DOM2在Document类型上新增了如下命名空间特定的方法
+        - createElementNS(namespaceURI, tagName): 以给定的标签名tagName创建指定命名空间namespaceURI的一个新元素
+        - createAttributeNS(namespaceURI, attributeName): 以给定的属性名attributeName创建指定命名空间namespaceURI的一个新属性
+        - getElementsByTagNameNS(namespaceURI, tagName): 返回指定命名空间namespaceURI中所有标签名为tagName的元素的NodeList
+
+        这些命名空间特定的方法只在文档中包含两个或两个以上命名空间时才有用.
+    -->
+    <script>
+        // 创建一个新SVG元素
+        let svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+
+        // 创建一个任意命名空间的新属性
+        let att = document.createAttributeNS("http://www.somewhere.com", "random");
+
+        // 获取所有XHTML元素
+        let elems = document.getElementsByTagNameNS("http://www.w3.org/1999/xhtml", "*");
+    </script>
+</body>
+
+</html>
