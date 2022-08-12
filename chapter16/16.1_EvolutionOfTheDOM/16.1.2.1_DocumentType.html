@@ -1,0 +1,30 @@
+<!DOCTYPE HTML PUBLIC "-// W3C// DTD HTML 4.01// EN"
+"http://www.w3.org/TR/html4/strict.dtd"
+[<!ELEMENT name (#PCDATA)>] >
+<html>
+
+<head></head>
+
+<body>
+    <!-- 16.1.2.1 DocumentType的变化
+    
+        DocumentType新增了3个属性: publicId, systemId, internalSubset
+        
+        publicId, systemId属性表示文档类型声明中有效但无法使用DOM1 API访问的数据.
+
+        internalSubset用于访问文档类型声明中可能包含的额外定义
+        HTML文档中几乎不会涉及文档类型的内部子集, XML文档中稍微常用一些
+    -->
+    <script>
+        // publicId
+        console.log(document.doctype.publicId);
+
+        // systemId
+        console.log(document.doctype.systemId);
+
+        // internalSubset
+        console.log(document.doctype.internalSubset);
+    </script>
+</body>
+
+</html>
