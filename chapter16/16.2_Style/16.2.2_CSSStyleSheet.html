@@ -1,0 +1,45 @@
+<html>
+
+<head></head>
+
+<body>
+    <!-- 16.2.2 操作样式表
+    
+        CSSStyleSheet类型表示CSS样式表, 包括使用<link>元素和通过<style>元素定义的样式表
+        这两个元素本身分别是HTMLLinkElement和HTMLStyleElement
+        CSSStyleSheet类型是一个通用样式表类型, 可以表示以任何方式在HTML中定义的样式表
+
+        元素特定的类型允许修改HTML属性, 而CSSStyleSheet类型的实例则是一个只读对象, 只有一个属性例外
+
+        CSSStyleSheet类型继承StyleSheet, 后者可用作非CSS样式表的基类
+        以下是CSSStyleSheet从StyleSheet继承的属性
+        - disabled: 布尔值, 表示样式表是否被禁用了, 该属性可读写, 设置为true会禁用样式表
+        - href: 如果是使用<link>包含的样式表, 则返回样式表的URL, 否则返回null
+        - media: 样式表支持的媒体类型集合, 这个集合有一个length属性和一个item()方法, 同所有DOM集合一样
+                 如果样式表可用于所有媒体, 则返回空列表
+        - ownerNode: 指向拥有当前样式表的节点, 在HTML中是<link>或<style>
+                     如果当前样式表是通过@import被包含在另一个样式表, 则返回null
+        - parentStyleSheet: 如果当前样式表是通过@import被包含在另一个样式表中, 则这个属性指向导入它的样式表
+        - title: ownerNode的title属性
+        - tyle: 字符串, 表示样式表的类型. 对CSS来说是"text/css"
+
+        上述属性除了disabled, 其他属性都是只读的
+        除了上述属性, CSSStyleSheet类型还支持以下属性和方法
+        - cssRules: 当前样式表包含的样式规则的集合
+        - ownerRule: 如果样式表是使用@import导入的, 则指向导入规则, 否则为null
+        - deleteRule(index): 在指定位置删除cssRules中的规则
+        - inertRule(rule, index): 在指定位置向cssRules中插入规则
+
+        通过<link>或<style>元素也可以直接获取CSSStyleSheet对象
+        DOM在这两个元素上暴露了sheet属性, 其中包含对应的CSSStyleSheet对象
+    -->
+    <script>
+        // document.styleSheets表示文档中可用的样式表集合
+        // 这个集合的length属性保存着文档中样式表的数量, 而每个样式表都可以使用中括号或item()方法来获取
+        for (const sheet of document.styleSheets) {
+            console.log(sheet.href);
+        }
+    </script>
+</body>
+
+</html>
