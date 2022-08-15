@@ -1,0 +1,60 @@
+<html>
+
+<head>
+    <style>
+        div.box {
+            background-color: blue;
+            width: 100px;
+            height: 200px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">hello world</div>
+    
+    <!-- 16.2.2.1 CSS规则
+    
+        CSSRule类型表示样式表中的一条规则
+        这个类型也是一个通用基类, 很多类型都继承他, 其中最常用的是表示样式信息的CSSStyleRule
+
+        以下是CSSStyleRule对象上可用的属性
+        - cssText: 返回整条规则的文本
+        - parentRule: 如果这条规则被其他规则包含, 则指向包含规则, 否则null
+        - parentStyleSheet: 包含当前规则的样式表
+        - selectorText: 返回规则的选择符文本
+        - style: 返回CSSStyleDeclaration对象, 可以设置和获取当前规则中的样式
+        - type: 数值常量, 表示规则类型. 对于样式规则, 它始终为1
+
+        这些属性中, 使用最多的是cssText, selectorText, style
+        cssText属性与style.cssText类似, 不过完全不同
+        cssText包含选择符文本和环绕样式声明的大括号, 而style.cssText只包含样式声明
+        此外, cssText是只读的, 而style.cssText可以被重写
+
+        style属性可以实现操作样式规则的任务
+        这个对象可以像每个元素上的style对象一样, 用来读取或修改规则的样式
+    -->
+    <script>
+        let sheet = document.styleSheets[0];
+        // 取得规则集合
+        let rules = sheet.cssRules || sheet.rules;
+        // 取得第一条规则
+        let rule = rules[0];
+        // div.box
+        console.log(rule.selectorText);
+        // 完整的CSS代码
+        console.log(rule.cssText);
+        console.log(rule.style.cssText);
+        // blue
+        console.log(rule.style.backgroundColor);
+        // 100px
+        console.log(rule.style.width);
+        // 200px
+        console.log(rule.style.height);
+
+        // 修改规则中的样式
+        rule.style.backgroundColor = "red";
+    </script>
+</body>
+
+</html>
