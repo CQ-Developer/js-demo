@@ -1,0 +1,76 @@
+<html>
+
+<head></head>
+
+<body>
+    <div id="div1">
+        <p>
+            <b>Hello</b> world!
+        </p>
+        <ul>
+            <li>List item 1</li>
+            <li>List item 2</li>
+            <li>List item 3</li>
+        </ul>
+    </div>
+
+    <!-- 16.3.2 TreeWalker
+    
+        TreeWalker是NodeIterator的高级版
+        除了同样包含nextNode()和previousNode()方法
+        TreeWalker还添加了如下在DOM结构中向不同方向白能力的方法
+        - parentNode(): 遍历到当前节点的父节点
+        - firstChild(): 遍历到当前节点的第一个子节点
+        - lastChild(): 遍历到当前节点的最后一个子节点
+        - nextSibling(): 遍历到当前节点的下一个同胞节点
+        - previousSibling(): 遍历到当前节点的上一个同胞节点
+
+        TreeWalker对象调用document.createTreeWalker()方法来创建
+        这个方法接收和document.createNodeIterator()同样的参数: 作为遍历起点的根节点, 要查看的节点类型, 节点过滤器, 表示是否扩展实体引用的布尔值
+        两者很类似, 所以TreeWalker通常可以取代NodeIterator
+
+        不同的是, 节点过滤器filter除了可以返回NodeFilter.FILTER_ACCEPT和NodeFilter.FILTER_SKIP, 还可以返回NodeFilter.FILTER_REJECT
+        在使用NodeIterator时, NodeFilter.FILTER_SKIP和NodeFilter.FILTER_REJECT时一样的
+        在使用TreeWalker时, NodeFilter.FILTER_SKIP表示跳过节点, 访问子树中下一个节点, 而NodeFilter.FILTER_REJECT则表示跳过该节点以及该节点的整个子树
+
+        TreeWalker类型有一个名为currentNode的属性, 表示遍历过程中上一次返回的节点
+        可以通过修改这个属性来影响接下来遍历的起点
+
+        相对于NodeIterator, TreeWalker类型为遍历DOM提供了更高的灵活性
+    -->
+    <script>
+        let div = document.getElementById("div1");
+        let walker = document.createTreeWalker(div, NodeFilter.SHOW_ELEMENT, node => node.tagName.toLowerCase() == "li" ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP);
+        let node = walker.nextNode();
+        while (node != null) {
+            console.log(node.tagName);
+            node = walker.nextNode();
+        }
+
+        // TreeWalker真正的为例是可以在DOM结构中四处游走
+        // 不使用过滤器, 单纯使用TreeWalker的漫游能力同样可以在DOM树中访问<li>元素
+        walker = document.createTreeWalker(div, NodeFilter.SHOW_ELEMENT, null);
+        // 前往<p>
+        walker.firstChild();
+        // 前往<ul>
+        walker.nextSibling();
+        // 前往第一个<li>
+        node = walker.firstChild();
+        while (node != null) {
+            console.log(node.tagName);
+            node = walker.nextSibling();
+        }
+
+        // 修改遍历的起点
+        walker = document.createTreeWalker(div, NodeFilter.SHOW_ELEMENT, null);
+        node = walker.nextNode();
+        console.log(node == walker.currentNode);
+        walker.currentNode = document.body;
+        while (node != null) {
+            console.log(node.tagName);
+            node = walker.nextNode();
+        }
+    </script>
+</body>
+
+</html>
