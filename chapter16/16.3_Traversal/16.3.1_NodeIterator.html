@@ -1,0 +1,96 @@
+<html>
+
+<head></head>
+
+<body>
+    <div id="div1">
+        <p>
+            <b>Hello</b> world!
+        </p>
+        <ul>
+            <li>List item 1</li>
+            <li>List item 2</li>
+            <li>List item 3</li>
+        </ul>
+    </div>
+
+    <!-- 16.3.1 NodeIterator
+    
+        NodeIterator类型是两个类型中比较简单的, 可以通过document.createNodeIterator()方法创建其实例
+
+        这个方法接受以下4个参数:
+        - root: 作为遍历根节点的节点
+        - whatToShow: 数值代码, 表示应该访问哪些节点
+        - filter: NodeFilter对象或函数, 表示是否接收或跳过特定节点
+        - entityReferenceExpansion: 布尔值, 表示是否扩展实体引用, 该参数在HTML中无效, 因为实体引用永远不扩展
+
+        whatToShow参数一个位掩码, 通过应用一个或多个过滤器来指定访问哪些节点
+        这个参数对应的常量在NodeFilter类型中定义
+        - NodeFilter.SHOW_ALL: 所有节点
+        - NodeFilter.SHOW_ELEMENT: 元素节点
+        - NodeFilter.SHOW_ATTRIBUTE: 属性节点, 由于DOM的结构, 因此实际上用不上
+        - NodeFilter.SHOW_TEXT: 文本节点
+        - NodeFilter.SHOW_CDATA_SECTION: CData区块节点, 不是在HTML页面中使用的
+        - NodeFilter.SHOW_ENTITY_REFERENCE: 实体引用节点, 不是在HTML页面中使用的
+        - NodeFilter.SHOW_ENTITY: 实体节点, 不是在HTML页面中使用的
+        - NodeFilter.SHOW_PROCESSING_INSTRUCTION: 处理指令节点, 不是在HTML页面中使用的
+        - NodeFilter.SHOW_COMMENT: 注释节点
+        - NodeFilter.SHOW_DOCUMENT: 文档节点
+        - NodeFilter.SHOW_DOCUMENT_TYPE: 文档类型节点
+        - NodeFilter.SHOW_DOCUMENT_FRAGMENT: 文档片段节点, 不是在HTML页面中使用的
+        - NodeFilter.SHOW_NOTATION: 记号节点, 不是在HTML页面中使用的
+
+        这些值除了NodeFilter.SHOW_ALL之外, 都可以组合使用
+        可以像下面这样按位或组合多个选项
+
+        filter参数可以用来自定义NodeFilter对象, 或一个作为节点过滤器的函数
+        NodeFilter独享只有一个acceptNode()方法, 如果给定的节点应该访问就返回NodeFilter.FILTER_ACCEPT, 否则返回NodeFilter.FILTER_SKIP
+        因为NodeFilter是一个抽象类型, 所以不可能创建它的实例
+        只要创建一个包含acceptNode()的对象, 然后把它传给createNodeIterator()就可以了
+        filter参数还可以是一个函数, 与acceptNode()的形式一样
+
+        NodeInterator的两个主要方法是nextNode()和previousNode()
+        nextNode()方法在DOM子树中以深度优先方式前进一步, previousNode()在遍历中后退一步
+        创建NodeIterator对象时, 有一个内部指针指向根节点, 因此第一次调用nextNode()返回的是根节点
+        当遍历达到DOM树最后一个节点时, nextNode()返回null
+        当遍历达到DOM树最后一个节点时, previousNode()返回遍历的根节点, 再次调用也会返回null
+
+        nextNode()和previousNode()共同维护NodeIterator对DOM结构的内部指针
+        因此修改DOM结构也会体现在遍历中
+    -->
+    <script>
+        // 组合多个whatToShow选项
+        let whatToShow = NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_TEXT;
+
+        // 使用对象定义NodeFilter对象
+        let filterA = {
+            acceptNode(node) {
+                return node.tagName.toLowerCase() == "p" ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP;
+            }
+        };
+
+        // 使用函数定义NodeFilter对象
+        let filterB = function (node) {
+            return node.tagName.toLowerCase() == "p" ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP;
+        };
+
+        // 假设想要遍历<div>元素内部的所有元素
+        let div = document.getElementById("div1");
+        let iterator = document.createNodeIterator(div, NodeFilter.SHOW_ELEMENT, null);
+        let node = iterator.nextNode();
+        while (node != null) {
+            console.log(node.tagName);
+            node = iterator.nextNode();
+        }
+
+        // 如果只想遍历<li>元素
+        let liIterator = document.createNodeIterator(div, NodeFilter.SHOW_ELEMENT, node => node.tagName.toLowerCase() == "li" ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP);
+        let liNode = liIterator.nextNode();
+        while (liNode != null) {
+            console.log(liNode.tagName);
+            liNode = liIterator.nextNode();
+        }
+    </script>
+</body>
+
+</html>
