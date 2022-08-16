@@ -1,0 +1,42 @@
+<html>
+
+<head></head>
+
+<body>
+    <!-- 16.2.3.3 滚动尺寸
+    
+        滚动尺寸提供了元素内容滚动距离的信息
+        有些元素比如<html>无须任何代码就可以自动滚动, 而其他元素则需要使用CSS的overflow属性令其滚动
+
+        滚动尺寸相关的属性有如下4个
+        - scrollHeight: 没有滚动条出现时, 元素内容的总高度
+        - scrollLeft: 内容区左侧隐藏的像素数, 设置这个属性可以改变元素的滚动位置
+        - scrollTop: 内容区顶部隐藏的像素数, 设置这个属性可以改变元素的滚动位置
+        - scrollWidth: 没有滚动条出现时, 元素内容的总高度
+
+        scrollWidth和scrollHeight可以用来确定给定元素内容的实际尺寸
+        例如, <html>元素是浏览器中滚动视口的元素
+        因此, document.documentElement.scrollHeight就是整个页面垂直方向的总高度
+
+        scrollWidth和scrollHeight与clientWidth和clientHeight之间的关系在不需要滚动的文档上是分不清的
+        如果文档尺寸超过视口尺寸, 则在所有主流浏览器中这两对属性都不想等, scrollWidth和scrollHeight等于文档内容的宽度
+        而clientWidth和clientHeight等于视口的大小
+
+        scrollLeft和scrollTop属性可以用于确定当前元素滚动的位置, 或者用于设置它们的滚动位置
+        元素在未滚动时, 这两个属性都等于0
+        如果元素在垂直方向上滚动, 则scrollTop会大于0, 表示元素顶部不可见区域的高度
+        如果元素在水平方向上滚动, 则scrollLeft会大于0, 表示元素左侧不见区域的宽度
+        因为这两个属性时可写的, 所以把它们都设置为0就可以重置元素的滚动位置
+    -->
+    <script>
+        // 下面这个函数检测元素是不是位于顶部
+        // 如果不是则把它滚动到顶部
+        function scrollToTop(element) {
+            if (element.scrollTop != 0) {
+                element.scrollTop = 0;
+            }
+        }
+    </script>
+</body>
+
+</html>
