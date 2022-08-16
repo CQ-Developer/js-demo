@@ -3,15 +3,56 @@
 <head></head>
 
 <body>
+    <p id="p1"><b>Hello</b> world!</p>
+    
     <!-- 16.4.3 复杂选择
     
         要创建复杂的范围, 需要使用setStart()和setEnd()方法
         这两个方法都接收两个参数: 参照节点, 偏移量
         对setStart()来说, 参照节点会成为startContainer, 而偏移量会赋值给startOffset
         对setEnd()来说, 参照节点会成为endContainer, 而偏移量会赋值给endOffset
+
+        要选择节点, 必须先去顶给定节点在其父节点childNodes结合中的索引
+        要选择节点的内容, 则不需要这样的计算, 因为可以直接给setStart()和setEnd传默认值
+        虽然可以模拟selectNode()和selectNodeContents(), 但setStart()和setEnd()真正的威力还是选择节点中的某个部分
+
+        当然, 只选择文档中的某个部分并不是特别有用, 除非可以对选中的部分执行操作
     -->
     <script>
-        // 
+        // setStart()和setEnd()示例
+        let range1 = document.createRange();
+        let range2 = document.createRange();
+
+        let p1 = document.getElementById("p1");
+        let p1Index = -1;
+
+        for (let i = 0; i < p1.parentNode.childNodes.length; i++) {
+            if (p1.parentNode.childNodes[i] === p1) {
+                p1Index = i;
+                break;
+            }
+        }
+
+        range1.setStart(p1.parentNode, p1Index);
+        range1.setEnd(p1.parentNode, p1Index + 1);
+
+        range2.setStart(p1, 0);
+        range2.setEnd(p1, p1.childNodes.length);
+
+        // 假设想通过范围选择"Hello"中的"llo"到" world!"中的"o"的部分
+        // 第一步是取得所有相关节点的引用
+        p1 = document.getElementById("p1");
+        let helloNode = p1.firstChild.firstChild;
+        let worldNode = p1.lastChild;
+
+        // 第二步创建范围并指定其边界
+        let range = document.createRange();
+
+        // 因为helloNode和worldNode是文本节点, 所以它们会成为范围的startContainer和endContainer
+        // 这样startOffset和endOffset实际上表示每个节点中文本字符的位置, 而不是子节点的位置
+        // 而commonAncestorContainer是<p>元素, 即包含这两个节点的第一个祖先节点
+        range.setStart(helloNode, 2);
+        range.setEnd(worldNode, 3);
     </script>
 </body>
 
