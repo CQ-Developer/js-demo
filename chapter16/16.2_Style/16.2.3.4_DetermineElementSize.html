@@ -1,0 +1,24 @@
+<html>
+
+<head></head>
+
+<body>
+    <div id="mydiv" style="background-color: blue; width: 100px; height: 25px;">hello world</div>
+    <!-- 16.2.3.4 确定元素尺寸
+    
+        浏览器在每个元素上都暴露了getBoundingClientRect()方法, 返回一个DOMRect对象
+        包含6个属性: left, top, right, bottom, height, width
+        这些属性给出了元素在页面中相对于视口的位置
+    -->
+    <script>
+        let rect = document.getElementById("mydiv").getBoundingClientRect();
+        console.log(rect.left);
+        console.log(rect.top);
+        console.log(rect.right);
+        console.log(rect.bottom);
+        console.log(rect.height);
+        console.log(rect.width);
+    </script>
+</body>
+
+</html>
