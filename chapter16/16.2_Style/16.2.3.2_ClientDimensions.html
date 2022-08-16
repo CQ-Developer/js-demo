@@ -1,0 +1,25 @@
+<html>
+
+<head></head>
+
+<body>
+    <!-- 16.2.3.2 客户端尺寸
+    
+        元素的客户端尺寸包含元素内容及其内边距所占用的空间
+        客户端尺寸只有两个相关属性: clientWidth和clientHeight
+        clientWidth是内容区宽度加左右内边距宽度
+        clientHeight是内容区高度加上下内边距高度
+
+        客户端尺寸实际上就是元素内部空间, 因此不包含滚动条占用的空间
+        这两个属性最常用于确定浏览器视口尺寸, 即检测document.documentElement的clientWidth和clientHeight
+        这两个属性表示视口的尺寸
+
+        与偏移尺寸一样, 客户端尺寸也是只读的, 而且每次访问都会重新计算
+    -->
+    <script>
+        let html = document.documentElement;
+        console.log(html.clientWidth, html.clientHeight);
+    </script>
+</body>
+
+</html>
