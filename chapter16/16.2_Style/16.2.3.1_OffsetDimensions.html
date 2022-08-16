@@ -24,6 +24,10 @@
         而对于使用表格和内嵌窗格的页面布局, 它们返回的值会因为浏览器不同而有所差异, 因为浏览器实现这些元素的方式不同
         一般来说, 包含在<div>元素中的所有元素都以<body>为其offsetParent
         因此getElementLeft()和getElementTop()返回的值与offsetLeft和offsetTop返回的值相同
+
+        所有这些偏移尺寸属性都是只读的, 每次访问都会重新计算
+        因此应该尽量减少查询它们的次数
+        比如将查询的值保存在变量中就可以避免影响性能
     -->
     <script>
         // getElementLeft()
