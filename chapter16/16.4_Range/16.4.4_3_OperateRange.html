@@ -37,17 +37,6 @@
         range.setStart(helloNode, 2);
         range.setEnd(worldNode, 3);
         
-        // deleteContents()
-        // 因为范围选择过程通过修改底层DOM结构保证了结构完好
-        // 所以即使删除范围之后, 剩下的DOM结构照样是完好的
-        // range.deleteContents();
-
-        // extractContents()
-        // 这个例子提取了文档的片段, 然后把它添加到文档<body>元素的最后
-        // 注意, 在文档片段传给appendChild()时, 只会添加片段的子树, 不包含片段自身
-        // let fragment = range.extractContents();
-        // p1.parentNode.appendChild(fragment);
-
         // cloneContents()
         let fragment = range.cloneContents();
         p1.parentNode.appendChild(fragment);
