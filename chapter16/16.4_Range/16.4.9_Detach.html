@@ -1,0 +1,32 @@
+<html>
+
+<head></head>
+
+<body>
+    <p id="p1"><b>Hello</b> world!</p>
+
+    <!-- 16.4.9 清理
+    
+        在使用完Range之后, 最好调用detach()方法把Range从创建它的文档中剥离
+        调用detach()之后, 就可以放心解除对Range的引用, 以便垃圾回收程序释放它占用的内存
+
+        range.detach();
+        range = null;
+        这两步是最合理的结束使用Range的方式
+        剥离之后的Range就不能再使用了
+    -->
+    <script>
+        let p = document.getElementById("p1");
+
+        let range = document.createRange();
+        range.selectNodeContents(p);
+        console.log(range);
+
+        range.detach();
+        console.log(range);
+
+        range = null;
+    </script>
+</body>
+
+</html>
