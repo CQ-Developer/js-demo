@@ -1,0 +1,29 @@
+<html>
+
+<head></head>
+
+<body>
+    <p id="p1"><b>Hello</b> world!</p>
+    
+    <!-- 16.4.8 复制范围
+    
+        调用Range的cloneRange()方法可以复制Range
+        这个方法会创建调用它的Range的副本
+
+        新Range包含与原始Range一样的属性, 修改其边界点不会影响原始Range
+    -->
+    <script>
+        let p1 = document.getElementById("p1");
+
+        let range1 = document.createRange();
+        range1.selectNodeContents(p1);
+
+        let range2 = range1.cloneRange();
+        range2.setEndBefore(p1.lastChild);
+
+        console.log(range1);
+        console.log(range2);
+    </script>
+</body>
+
+</html>
