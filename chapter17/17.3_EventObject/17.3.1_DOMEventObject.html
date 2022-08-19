@@ -1,0 +1,41 @@
+<html>
+
+<head></head>
+
+<body>
+    <input id="myBtn" type="button" value="Click Me">
+
+    <input type="button" value="Click Me" onclick="console.log(event.type)">
+
+    <!-- 17.3.1 DOM事件对象
+    
+        在DOM中发生事件时, 所有相关信息都会被收集并存储在一个名为event的对象中
+        这个对象包含了一些基本信息, 比如导致事件的元素, 发生的事件类型, 以及可能与特定事件相关的任何其他数据
+        所有浏览器都支持这个event对象, 尽管支持的方式不同
+
+        在DOM合规的浏览器中, event对象是传给事件处理程序的唯一参数
+        不管以DOM0或DOM2中的哪种方式指定事件处理程序, 都会传入这个event对象
+
+        在通过HTML属性指定的事件处理程序中, 同样可以使用变量event引用事件对象
+
+        事件对象包含与特定事件相关的属性和方法
+        不同的事件生成的事件对象也包含不同的属性和方法
+        不过, 所有事件独享都会包含下列公共属性和方法
+        bubbles          | boolean | readOnly | 表示事件是否冒泡
+        cancelable       | boolean | readOnly | 表示是否可以取消事件的默认行为
+        currentTarget    | element | readOnly | 当前事件处理程序所在的元素
+        defaultPrevented | boolean | readOnly | true表示已经调用preventDefault()方法(DOM3 Event 中新增)
+        detail           | int     | readOnly | 事件相关的其他信息
+    -->
+    <script>
+        let btn = document.getElementById("myBtn");
+
+        // 使用DOM0方式访问event对象
+        btn.onclick = event => console.log(event.type);
+
+        // 使用DOM2方式访问event对象
+        btn.addEventListener("click", event => console.log(event.type));
+    </script>
+</body>
+
+</html>
