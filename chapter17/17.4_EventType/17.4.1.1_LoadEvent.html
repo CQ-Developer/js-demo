@@ -1,0 +1,99 @@
+<html>
+
+<head></head>
+
+<!-- 通过body元素的onload属性为页面添加load事件的处理程序 -->
+
+<body onload="console.log('body: loaded')">
+
+    <!-- 通过为img的onload属性为图片添加load事件处理程序 -->
+    <img src="../img/test.jpg" onload="console.log('img: Image loaded.')">
+
+    <img id="myImg" src="../img/test.jpg">
+
+    <!-- 17.4.1.1 load事件
+    
+        load事件可能是JS中最常用的事件
+        在window对象上, load事件会在整个页面加载完成后触发
+        整个页面加载加载完成包括: 所有外部资源如图片, JS文件, CSS文件
+        可以通过两种方式指定load事件处理程序
+        event.target指向document对象
+
+        第一种方式是在window对象上调用addEventListener()方法
+        第二种方式是通过在<body>元素上添加onload属性
+        
+        一般来说, 任何在window上发生的事件, 都可以通过给<body>元素上对应的属性赋值来指定, 这是因为HTML中没有window元素
+        实际上是为了保证向后兼容的一个策略, 但在所有浏览器中都能得到很好的支持
+        实际开发中要尽量使用JS方式
+
+        注意
+        根据 DOM2 Event, load事件应该在document而非window上处罚
+        可是为了向后兼容, 所有浏览器都在window上实现了load事件
+
+        图片上也会触发load事件, 包括DOM中的图片和非DOM中的图片
+        可以在HTML中直接给<img>元素的onload属性指定事件处理程序
+        同样, 使用JS也可以为图片指定事件处理程序
+
+        在通过JS创建<img>元素时, 也可以给这个元素指定一个在加载完成后执行的事件处理程序
+        在这里, 关键是要在赋值src属性前指定事件处理程序
+
+        同样的技术也适用于DOM0的Image对象
+        在DOM出现之前, 客户端都使用Image对象预先加载图片
+        可以像使用前面的<img>元素一样使用Image对象, 只是不能把后者添加到DOM树
+
+        还有一些元素也以非标准的方式支持load事件
+        <script>元素会在JS文件加载完成后触发load事件, 从而可以动态检测
+        与图片不同, 要下载JS文件必须同时指定src属性并把<script>元素添加到文档中
+        因此指定事件处理程序和指定src属性的顺序在这里并不重要
+
+        IE和Opera支持<link>元素触发load事件, 因而支持动态检测样式表是否加载完成
+        与<script>节点一样, 在指定href属性并把<link>节点添加到文档之前不会下载样式表
+    -->
+    <script>
+        // 使用JS为页面添加load事件处理程序
+        window.addEventListener("load", event => console.log("js: loaded!"));
+
+        // 使用JS为图片添加load事件处理程序
+        let myImg = document.getElementById("myImg");
+        myImg.addEventListener("load", event => console.log(event.target.src));
+
+        // 使用JS创建<img>元素并指定load事件处理程序
+        // 因为涉及向DOM中添加新元素, 所以必须确保页面已经加载完成
+        window.addEventListener("load", () => {
+            let img = document.createElement("img");
+            img.addEventListener("load", event => console.log(event.target.src));
+            document.body.appendChild(img);
+            // 注意, 下载图片并不一定要把<img>元素添加到文档
+            // 只要给他设置了src属性就会立即开始下载
+            img.src = "../img/test.jpg";
+        });
+
+        // 使用Image对象实现图片的预加载
+        window.addEventListener("load", () => {
+            let image = new Image();
+            image.addEventListener("load", event => console.log("Image loaded!"));
+            image.src = "../img/test.jpg";
+        });
+
+        // 给动态创建的<script>元素指定事件处理程序
+        window.addEventListener("load", () => {
+            let script = document.createElement("script");
+            // 这里event对象的target属性在大多数浏览器中是<script>节点
+            script.addEventListener("load", event => console.log("Script loaded"));
+            script.src = "../js/example.js";
+            document.body.appendChild(script);
+        });
+
+        // 给动态创建的<link>元素添加load事件处理程序
+        window.addEventListener("load", () => {
+            let link = document.createElement("link");
+            link.type = "text/css";
+            link.rel = "stylesheet";
+            link.addEventListener("load", event => console.log("css loaded"));
+            link.href = "../css/example.css";
+            document.getElementsByTagName("head")[0].appendChild(link);
+        });
+    </script>
+</body>
+
+</html>
