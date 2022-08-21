@@ -1,0 +1,25 @@
+<html>
+
+<head></head>
+
+<body>
+    <!-- 17.4.3.8 mousewheel事件
+    
+        mousewheel事件会在用户使用鼠标滚轮时触发, 包括在垂直方向上任意滚动
+        这个事件会在任何元素上触发, 并冒泡到document和window
+        
+        mousewheel事件的event对象包括一个名为wheelDelta的属性
+        当鼠标滚轮向前滚动时, wheelDelta每次都是+120
+        当鼠标滚轮向后滚动时, wheelDelta每次都是-120
+
+        可以为页面上的任何元素或文档添加onmousewheel事件处理程序
+        多数情况下只需要知道滚轮滚动的方向, 而这通过wheelDelta的值的符号就可以知道
+
+        HTML5也增加了mousewheel事件, 以反映大多数浏览器对它的支持
+    -->
+    <script>
+        document.addEventListener("mousewheel", event => console.log(event.wheelDelta));
+    </script>
+</body>
+
+</html>
