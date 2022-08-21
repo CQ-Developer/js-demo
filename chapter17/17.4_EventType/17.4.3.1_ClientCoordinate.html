@@ -1,0 +1,22 @@
+<html>
+
+<head></head>
+
+<body>
+    <div id="myDiv" style="background-color: red;">点击我</div>
+    <!-- 17.4.3.1 客户端坐标
+    
+        鼠标事件都是在浏览器视口中的某个位置上发生的
+        这些信息被保存在event对象的clientX和clientY属性中
+        这两个属性表示事件发生时鼠标光标在视口中的坐标, 所有浏览器都支持
+
+        注意客户端坐标不考虑页面滚动, 因此这两个值并不代表鼠标在页面上的位置
+    -->
+    <script>
+        // 获取鼠标事件的客户端坐标
+        let div = document.getElementById("myDiv");
+        div.addEventListener("click", event => console.log(`Client coordinates: ${event.clientX}, ${event.clientY}`));
+    </script>
+</body>
+
+</html>
