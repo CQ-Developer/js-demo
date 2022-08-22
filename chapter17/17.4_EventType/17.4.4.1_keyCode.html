@@ -1,0 +1,38 @@
+<html>
+
+<head></head>
+
+<body>
+    <input id="myText" type="text">
+    
+    <!-- 17.4.4.1 键码
+    
+        键盘事件包含3个事件
+        - keydown: 用户按下键盘上某个键时触发, 而且持续按住会反复触发
+        - keypress: 用户按下键盘上某个键并产生字符时触发, 而且持续按住会反复触发
+                    Esc键也会触发这个事件
+                    DOM3 Events 废弃了keypress事件, 推荐textInput事件
+        - keyup: 用户释放键盘上某个键时触发
+
+        输入事件只有一个, 即textInput
+        这个事件是对keypress事件的扩展, 用于在文本显示给用户之前更方便地截获文本输入
+        textInput会在文本被插入到文本框之前触发
+
+        当用户按下键盘上的某个字符键时, 首先会触发keydown事件, 然后触发keypress事件, 最后触发keyup事件
+        keydown和keypress会在文本框出现变化之前触发, keyup会在文本框出现变化之后触发
+        如果一个字符键按住不放, keydown和keypress会反复触发, 直到这个键被释放
+
+        对于非字符键, 在键盘上按一下会先触发keydown事件, 然后触发keyup事件
+        按住非字符键不放, 会反复触发keydown事件, 直到释放这个键, 此时触发keyup事件
+
+        对于keydown和keyup事件, event对象的keyCode属性中会保存一个键码, 对应键盘上特定的一个键
+        对于字母和数字键, keyCode的值与小写字母和数字的ASCII编码一致
+    -->
+    <script>
+        // keyCode属性
+        let textbox = document.getElementById("myText");
+        textbox.addEventListener("keyup", event => console.log(event.keyCode));
+    </script>
+</body>
+
+</html>
