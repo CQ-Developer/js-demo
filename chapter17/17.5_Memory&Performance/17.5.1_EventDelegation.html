@@ -1,0 +1,65 @@
+<html>
+
+<head></head>
+
+<body>
+    <ul id="myLinks">
+        <li id="goSomewhere">Go somewhere</li>
+        <li id="doSomething">Do something</li>
+        <li id="sayHi">Say hi</li>
+    </ul>
+
+    <!-- 17.5.1 事件委托
+    
+        "过多事件处理程序"的解决方案是使用事件委托
+        事件委托利用事件冒泡, 可以只使用一个事件处理程序来管理一种类型的事件
+        
+        例如, click事件会冒泡到document
+        这意味着可以为整个页面指定一个onclick事件处理程序, 而不用为每个可点击元素分别指定事件处理程序
+
+        如果对页面中所有需要使用onclick事件处理程序的元素都如法炮制, 结果就会出现大片雷同的只为指定事件处理程序的代码
+        使用事件委托, 只要给所有元素共同的祖先节点加一个事件处理程序, 就可以解决这个问题
+
+        只要可行, 就应该考虑只给document添加一个事件处理程序, 通过它处理页面中所有某种类型的事件
+        相对于之前的技术, 事件委托具有如下优点:
+        1. document对象随时可用, 任何时候都可以给它添加事件处理程序, 不用等待DOMContentLoaded或load事件
+           这意味着只要页面渲染出可点击的元素, 就可以无延迟地起作用
+        2. 节省花在设置页面事件处理程序上的时间
+           只指定一个事件处理程序既可以节省DOM引用, 也可以节省时间
+        3. 减少整个页面所需的内存, 提升整体性能
+
+        最适合使用时间委托的事件包括: click, mousedown, mouseup, keydown, keypress
+        mouseover和mouseout事件冒泡, 但很难适当处理, 且经常需要计算元素位置
+    -->
+    <script>
+        // myLinks包含3个列表项
+        // 在被点击时应该执行某个操作
+        // 通常做法是指定3个事件处理程序
+        let item1 = document.getElementById("goSomewhere");
+        let item2 = document.getElementById("doSomething");
+        let item3 = document.getElementById("sayHi");
+
+        item1.addEventListener("click", () => location.href = "https://www.baidu.com");
+        item2.addEventListener("click", () => document.title = "I changed the document's title");
+        item3.addEventListener("click", () => console.log("hi"));
+
+        // 事件委托
+        let list = document.getElementById("myLinks");
+        list.addEventListener("click", event => {
+            let target = event.target;
+            switch (target.id) {
+                case "goSomewhere":
+                    location.href = "https://www.baidu.com";
+                    break;
+                case "doSomething":
+                    document.title = "I changed the document's title";
+                    break;
+                case "sayHi":
+                    console.log("hi");
+                    break;
+            }
+        });
+    </script>
+</body>
+
+</html>
