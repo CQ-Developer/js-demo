@@ -1,0 +1,34 @@
+<html>
+
+<head></head>
+
+<body>
+    <div id="myDiv"></div>
+    
+    <!-- 17.4.8.1 orientationchange事件
+    
+        Apple在移动Safari浏览器上创造了orientationchange事件, 以方便开发者判断用户的设备是处于垂直模式还是水平模式
+        移动Safari在window上暴露了window.orientation属性, 它有以下3种值之一:
+        0表示垂直模式
+        90表示左转水平模式
+        -90表示右转水平模式
+
+        每当用户旋转设备改变了模式, 就会触发orientationchange事件
+        但event对象上没有暴露任何有用的信息, 这是因为相关信息都可以从window.orientation属性中获取
+
+        所有IOS设备都支持orientationchange事件和window.orientation属性
+
+        注意, 因为orientationchange事件被认为是window事件
+        所以也可以通过给<body>元素添加onorientationchange属性来指定事件处理程序
+    -->
+    <script>
+        window.addEventListener("load", event => {
+            let div = document.getElementById("myDiv");
+            div.innerHTML = "Current orientation is " + window.orientation;
+
+            window.addEventListener("orientationchange", event => div.innerHTML = "Current orientation is " + window.orientation);
+        });
+    </script>
+</body>
+
+</html>
