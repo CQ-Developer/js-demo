@@ -1,0 +1,46 @@
+<html>
+
+<head>
+    <title>ContextMenu Event Example</title>
+</head>
+
+<body>
+    <div id="myDiv">
+        Right click or Ctrl+click me to get a custom context menu.
+        Click anywhere else to get the default context menu.
+    </div>
+    <ul id="myMenu" style="position: absolute; visibility: hidden; background-color: silver;">
+        <li><a href="http://www.somewhere,com">somewhere</a></li>
+        <li><a href="http://www.wrox.com">wrox site</a></li>
+        <li><a href="http://www.somewhere-else.com">somewhere-else</a></li>
+    </ul>
+
+    <!-- 17.4.7.1 contextmenu事件
+    
+        win95通过单机鼠标右键为PC用户增加了上下文菜单的概念
+        开发者面临的问题是如何确定何时该显示上下文菜单, 以及如何避免默认的上下文菜单起作用
+        结果就出现了contextmenu事件, 以专门用于表示何时该显示上下文菜单, 从而允许开发者取消默认的上下文菜单并提供自定义菜单
+
+        contextmenu事件冒泡, 因此只要给document指定一个事件处理程序就可以处理页面上的所有同类事件
+        事件目标是触发操作的元素
+        这个事件在所有浏览器中都可以取消, 在DOM合规的浏览器中使用event.preventDefault(), 在IE8及更早版本中将event.returnValue设置为false
+        contextmenu事件应该算一种鼠标事件, 因此event对象上的很多属性与光标位置有关
+        通常, 自定义的上下文菜单都是通过contextmenu事件处理程序触发显示, 并通过onclick事件处理程序触发隐藏的
+    -->
+    <script>
+        // 
+        window.addEventListener("load", event => {
+            let div = document.getElementById("myDiv");
+            div.addEventListener("contextmenu", event => {
+                event.preventDefault();
+                let menu = document.getElementById("myMenu");
+                menu.style.left = event.clientX + "px";
+                menu.style.top = event.clientY + "px";
+                menu.style.visibility = "visible";
+            });
+            document.addEventListener("click", event => document.getElementById("myMenu").style.visibility = "hidden");
+        });
+    </script>
+</body>
+
+</html>
