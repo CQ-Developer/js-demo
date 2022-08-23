@@ -1,0 +1,38 @@
+<html>
+
+<head></head>
+
+<body>
+    <input id="myText" type="text">
+
+    <!-- 17.4.5 合成事件
+    
+        合成事件是 DOM3 Events 中新增的, 用于处理通常使用IME输入时的复杂输入序列
+        IME可以让用户输入物理键盘上没有的字符
+        IME通常需要同时按下多个键才能输入一个字符
+        合成事件用于检测和控制这种输入
+
+        合成事件有以下3种:
+        1. compositionstart: 在IME的文本合成系统打开时触发, 表示输入即将开始
+        2. compositionupdate: 在新字符插入输入字段时触发
+        3. compositionend: 在IME的文本合成系统关闭时触发, 表示恢复正常键盘输入
+
+        合成事件在很多方面与输入事件很类似
+        在合成事件触发时, 事件目标是接收文本的输入字段
+        唯一增加的事件属性是data, 其中包含的值视情况而异:
+        1. 在compositionstart事件中, 包含正在编辑的文本, 例如已经选择了文本但还没替换
+        2. 在compositionupdate事件中, 包含要插入的新字符
+        3. 在compositionend事件中, 包含本次合成过程中输入的全部内容
+
+        与文本事件类似, 合成事件可以用来在必要时过滤输入内容
+    -->
+    <script>
+        // 合成事件
+        let myText = document.getElementById("myText");
+        myText.addEventListener("compositionstart", event => console.log(event.data));
+        myText.addEventListener("compositionupdate", event => console.log(event.data));
+        myText.addEventListener("compositionend", event => console.log(event.data));
+    </script>
+</body>
+
+</html>
