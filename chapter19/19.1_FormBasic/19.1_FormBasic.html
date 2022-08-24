@@ -1,0 +1,41 @@
+<!-- 19.1 表单基础
+
+    简介:
+    https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement
+
+    Web表单在HTML中以<form>元素表示, 在JS中以HTMLFormElement类型表示
+    HTMLFormElement类型继承自HTMLElement类型, 因此拥有与其他HTML元素一样的默认属性
+
+    有几种方式可以取得对<form>元素的引用
+    
+    可以为<form>元素指定id, 通过document.getElementById()获取表单
+
+    可以使用document.forms获取页面上的所有表单元素
+    然后使用数字索引或表单name来访问特定的表单
+
+    注意表单可以同时拥有id和name, 两者可以不相同
+-->
+<html>
+
+<head></head>
+
+<body>
+    <form id="myform" name="form1" action="./19.1_FormBasic.html"></form>
+    <form name="form2" action="./19.1_FormBasic.html"></form>
+    <form name="form3" action="./19.1_FormBasic.html"></form>
+    <script>
+        // 使用id获取表单
+        let form1 = document.getElementById("myform");
+        console.log(form1.name);
+
+        // 使用数字索引获取表单
+        let form2 = document.forms[1];
+        console.log(form2.name);
+
+        // 使用名称获取表单
+        let form3 = document.forms["form3"];
+        console.log(form3.name);
+    </script>
+</body>
+
+</html>
