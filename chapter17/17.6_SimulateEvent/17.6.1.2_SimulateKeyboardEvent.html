@@ -1,0 +1,51 @@
+<!-- 17.6.1.2 模拟键盘事件
+
+    在DOM3中创建键盘事件的方式是给createEvent()方法传参数"KeyboardEvent"
+    返回的event对象有一个方法initKeyboardEvent()
+    该方法接收以下参数
+    1 | type       | 字符串       | 要触发的事件类型     | 如"keydown"
+    2 | bubbles    | 布尔值       | 表示事件是否冒泡     | 为精确模拟键盘事件, 应该设置为true
+    3 | cancelable | 布尔值       | 表示事件是否可以取消 | 为精确模拟键盘事件, 应该设置为true
+    4 | view       | AbstractView | 与事件关联的试图     | 基本上始终是document.defaultView
+    5 | key        | 字符串       | 按下按键的字符串代码 |
+    6 | location   | 整数         | 案件案件的位置       | 0表示默认键, 1表示左边, 2表示右边, 3表示数字键盘, 4表示移动设备, 5表示游戏手柄
+    7 | modifiers  | 字符串       | 空格分隔的修饰符列表 | 如"Shift"
+    8 | repeat     | 整数         | 连续按了这个键多少次 |
+
+    注意, DOM3 Events 废弃了keypress事件, 因此只能通过上述方式模拟keydown和keyup事件
+
+    通用事件可以直接给event对象添加属性
+    虽然模拟事件会触发键盘事件, 但文本框中不会出入任何文本, 因为它并不能准确模拟键盘事件
+-->
+<html>
+
+<head></head>
+
+<body>
+    <input id="myTextbox" type="text" />
+    <script>
+        let textbox = document.getElementById("myTextbox");
+        textbox.addEventListener("keydown", event => console.log(event.key));
+
+        // 按照DOM3的方式创建event对象
+        if (document.implementation.hasFeature("KeyboardEvents", "3.0")) {
+            let event = document.createEvent("KeyboardEvent");
+            // 初始化event对象
+            event.initKeyboardEvent("keydown", true, true, document.defaultView, "a", 0, false, false, true, false);
+            // 触发事件
+            textbox.dispatchEvent(event);
+        }
+
+        // 创建一个通用的事件
+        let event = document.createEvent("Events");
+        // 初始化event对象
+        event.initEvent("keydown", true, true);
+        event.shiftKey = true;
+        event.keyCode = 65;
+        event.charCode = 65;
+        // 触发事件
+        textbox.dispatchEvent(event);
+    </script>
+</body>
+
+</html>
