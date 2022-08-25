@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <input type="email">
+    <input type="url">
+    
+    <!-- 19.2.4.2 更多输入类型
+    
+    HTML5为<input>元素增加了几个新的type值
+    这些类型有默认的校验
+    "email"和"url"已经得到广泛支持, 浏览器提供了自定义额验证
+
+    "email"类型确保输入的文本匹配电子邮件地址
+    "url"类型确保输入的文本匹配URL
+
+    要检测浏览器是否支持这些类型, 可以使用JS代码创建input元素并设置相应的type, 然后再读取元素的值
+    老版本浏览器会重置为"text", 新版本浏览器返回正确的值
+    -->
+    <script>
+        // 检测浏览器是否支持
+        let input = document.createElement("input");
+        input.type = "email";
+        let isEmailSupported = (input.type == "email");
+        console.log(`browser support email ? ${isEmailSupported}`);
+    </script>
+</body>
+
+</html>
