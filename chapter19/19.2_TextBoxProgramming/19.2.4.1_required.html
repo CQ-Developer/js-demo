@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <form>
+        <input name="username" type="text" required>
+    </form>
+    
+    <!-- 19.2.4.1 必填字段
+    
+    给表单字段添加required属性
+    任何带有required属性的字段都必须有值, 否则无法提交表单
+    该属性适用于<input>, <textarea>, <select>, Opera直到版本11都不支持<select>的required属性
+    可以通过JS检测对应元素的required属性来判断表单字段是否为必填
+
+    不同浏览器处理必填字段的机制不同
+    Firefox, Chrome, IE, Opera, 会阻止表单提交并在相应字段下面显示有帮助信息的弹框
+    Safari什么也不做, 也不会阻止提交表单
+    -->
+    <script>
+        // 检测浏览器是否支持required属性
+        let isRequiredSupport = "required" in document.createElement("input");
+        console.log(`browser support required ? ${isRequiredSupport}`);
+        
+        // 检查是否必填
+        let isUsernameRequired = document.forms[0].elements["username"].required;
+        console.log(`is username required ? ${isUsernameRequired}`);
+    </script>
+</body>
+
+</html>
