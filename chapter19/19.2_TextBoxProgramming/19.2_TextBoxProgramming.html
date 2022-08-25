@@ -1,0 +1,46 @@
+<html>
+
+<head></head>
+
+<body>
+    <input type="text" size="25" maxlength="50" value="initial value">
+
+    <textarea cols="5" rows="25">initial value</textarea>
+
+    <form>
+        <input name="textbox" type="text" value="initial value">
+    </form>
+    
+    <!-- 19.2 文本框编程
+    
+    在HTML中有两种表示文本框的方式: 单行使用<input>元素, 多行使用<textarea>元素
+    这两个控件非常相似, 不过它们也有非常重要的区别
+
+    <input>元素默认情况下显示为文本框, 省略type属性会以"text"作为默认值
+    size属性可以指定宽度, 宽度以字符数量来计量
+    value属性指定文本框的初始值
+    maxLength属性指定文本框允许的最多字符数
+
+    <textarea>元素总是会创建多行文本框
+    rows属性指定文本框的高度, 以字符数计量
+    cols属性指定文本框的宽度, 以字符数计量
+    与<input>不同的是, 初始值必须包含在起始标签和结束标签之间
+    与<input>不同的是, <textarea>不能在HTML中指定最大允许的字符数
+    
+    这两种类型的文本框都会在value属性中保存自己的内容
+    通过这个属性可以读取或设置文本框的值
+
+    应该使用value属性, 而不是标准DOM方法读写文本框的值
+    不要使用setAttribute()设置<input>元素value属性的值
+    不要尝试修改<textarea>元素的第一个子节点
+    对value属性的修改也不会总体现在DOM中, 因此在处理文本框值的时候最好不要使用DOM方法
+    -->
+    <script>
+        // 通过value设置文本框的值
+        let textbox = document.forms[0].elements["textbox"];
+        console.log(textbox.value);
+        textbox.value = "Some new value";
+    </script>
+</body>
+
+</html>
