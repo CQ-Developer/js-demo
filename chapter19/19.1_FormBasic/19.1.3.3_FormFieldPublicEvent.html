@@ -1,0 +1,52 @@
+<html>
+
+<head></head>
+
+<body>
+    <form>
+        <input type="text" />
+    </form>
+    <!-- 19.1.3.3 表单字段的公共事件
+    
+    除了鼠标, 键盘, 变化, HTML事件外, 所有字段还支持以下3个事件:
+    1. blur: 在字段失去焦点时触发
+    2. focus: 在字段获得焦点时触发
+    3. change: 在<input>和<textarea>元素的value发生变化且失去焦点时触发, 或者在<select>元素中选中项发生变化时触发
+
+    blur和focus事件会因为用户手动改变字段焦点或调用blur()或focus()方法而触发
+    这两个事件对所有表单都会一视同仁
+    
+    change事件则不然, 它会因为控件不同而在不同时机触发
+    对于<input>和<textarea>元素, change事件会在字段失去焦点, 同时value字段获得焦点发生变化时触发
+    对于<select>元素, change事件会在用户改变了选项时触发, 不需要控件失去焦点
+    
+    focus和blur事件通常用于以某种方式改变用户界面, 以提供可见的提示或额外功能
+    change事件通常用于验证用户在字段中输入的内容
+
+    注意, blur和change事件的关系并没有明确定义
+    blur事件可能先于change事件触发, 也可能后于change事件
+    因此不能依赖这两个事件触发的顺序, 必须区分时要多加注意
+    -->
+    <script>
+        let textbox = document.forms[0].elements[0];
+        // focus事件
+        textbox.addEventListener("focus", event => {
+            let target = event.target;
+            if (target.style.backgroundColor != "red") {
+                target.style.backgroundColor = "yellow";
+            }
+        });
+        // blur事件
+        textbox.addEventListener("blur", event => {
+            let target = event.target;
+            target.style.backgroundColor = /[^\d]/.test(target.value) ? "red" : "";
+        });
+        // change事件
+        textbox.addEventListener("change", event => {
+            let target = event.target;
+            target.style.backgroundColor = /[^\d]/.test(target.value) ? "red" : "";
+        });
+    </script>
+</body>
+
+</html>
