@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <form>
+        <select name="location" id="slLocation">
+            <option value="Synnyvale, CA">Sunnyvale</option>
+            <option value="Los Angeles, CA">Los Angeles</option>
+            <option value="Mountain View, CA">Mountain View</option>
+            <option value="">China</option>
+            <option>Australia</option>
+        </select>
+    </form>
+
+    <!-- 19.3.3 移除选项
+    
+    与添加选项类似, 移除选项的方法也不止一种
+    1.使用DOM的removeChild()方法
+    2.使用选择框的remove()方法, https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement/remove
+    3.直接将选项设置为null
+    -->
+    <script>
+        let selectbox = document.forms[0].elements["location"];
+
+        // DOM
+        selectbox.removeChild(selectbox.options[0]);
+
+        // remove()
+        selectbox.remove(0);
+
+        // null
+        selectbox.options[0] = null;
+
+        // 清楚所有选项
+        function clearSelectbox(selectbox) {
+            for (let option of selectbox.options) {
+                selectbox.remove(0);
+            }
+        }
+        clearSelectbox(selectbox);
+    </script>
+</body>
+
+</html>
