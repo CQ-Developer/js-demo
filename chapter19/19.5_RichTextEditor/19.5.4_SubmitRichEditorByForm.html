@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <div id="richedit" contenteditable="true"></div>
+    <form>
+        <input type="submit" value="提交">
+    </form>
+
+    <!-- 19.5.4 通过表单提交富文本
+    
+    因为富文本编辑器是在内嵌窗格或通过为元素指定contenteditable属性实现的, 而不是在表单控件中实现的, 所以富文本编辑器技术上与表单没有关系
+    这意味着要把富文本编辑的结果提交给服务器, 必须手工提取HTML并自己提交
+
+    通常解决方案是在表单中添加一个隐藏字段, 使用内嵌窗格或contenteditable元素的HTML更新它的值
+    在表单提交之前, 从内嵌窗格或contenteditable元素中提取出HTML并插入隐藏字段中
+
+    如果使用submit()方法手工提交表单, 那么要注意在提交前先执行内容替换操作
+    -->
+    <script>
+        let form = document.forms[0];
+        form.addEventListener("submit", event => event.target.elements["comments"].value = document.getElementById("richedit").innerHTML);
+    </script>
+</body>
+
+</html>
