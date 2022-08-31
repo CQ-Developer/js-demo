@@ -9,9 +9,10 @@
     <div id="richedit" contenteditable="true"></div>
     <form>
         <input type="submit" value="提交">
+        <input type="text" name="comments" hidden>
     </form>
 
-    <!-- 19.5.4 通过表单提交富文本
+    <!-- 19.5.4 通过表单提交富文本 P607
     
     因为富文本编辑器是在内嵌窗格或通过为元素指定contenteditable属性实现的, 而不是在表单控件中实现的, 所以富文本编辑器技术上与表单没有关系
     这意味着要把富文本编辑的结果提交给服务器, 必须手工提取HTML并自己提交
