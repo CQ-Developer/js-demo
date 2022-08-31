@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <div class="editable" id="richedit" contenteditable="true" style="height: 300px;"></div>
+    <button id="bold">粗体</button>
+    <button id="italic">斜体</button>
+    <button id="createlink">百度</button>
+    <button id="formatblock">h1</button>
+
+    <!-- 19.5.2 与富文本交互 P604
+    
+    与富文本编辑器交互的主要方法是使用document.execCommand()
+    这个方法在文档上执行既定的命令, 可以实现大多数格式化任务
+
+    document.execCommand()可以接收3个参数: 要执行的命令, 表示浏览器是否为命令提供用户界面的布尔值, 执行命令必须的值
+    为跨浏览器兼容, 第二个参数应该始终为false, 因为Firefox会在其为true时报错
+
+    不同浏览器支持的命令不同, 下表给出最常用命令
+    命令                 | 第三个参数     | 说明
+    backcolor            | 颜色字符串     | 设置文档背景颜色
+    bold                 | null           | 切换选中文本的粗体样式
+    copy                 | null           | 将选中文本复制到剪切板
+    createlink           | URL字符串      | 将当前选中文本转换为指向给定URL的连接
+    cut                  | null           | 将选中文本剪切到剪切板
+    delete               | null           | 删除当前选中的文本
+    fontname             | 字体名         | 将选中文本改为使用指定字体
+    fontsize             | 1~7            | 将选中文本改为指定字体大小
+    forecolor            | 颜色字符串     | 将选中文本改为指定颜色
+    formatblock          | HTML标签如<h1> | 将选中文本包含在指定HTML标签中
+    indent               | null           | 缩进文本
+    insertthorizontalrul | null           | 在光标位置插入<hr>元素
+    insertumage          | 图片URL        | 在光标位置插入图片
+    insertorderedlist    | null           | 在光标位置插入<ol>元素
+    insertparagraph      | null           | 在光标位置插入<p>元素
+    insertunorderedlist  | null           | 在光标位置插入<ul>元素
+    italic               | null           | 切换选中文本的斜体样式
+    justifycenter        | null           | 在光标位置居中文本块
+    justifyleft          | null           | 在光标位置左对齐文本块
+    outdent              | null           | 减少缩进
+    paste                | null           | 在选中文本上粘贴剪切板内容
+    removeformat         | null           | 移除光标所在位置块的HTML标签, formatblock的反向操作
+    selectall            | null           | 选中文档中所有文本
+    underline            | null           | 切换选中文本的下划线样式
+    unlink               | null           | 移除文本链接, createlink的反向操作
+
+    剪切板相关的命令与浏览器密切相关
+    虽然这些命令并不都可以通过document.execCommand()使用, 但相应的键盘快捷键都是可以使用的
+
+    注意, 即使命令是所有浏览器都支持的, 命令生成的HTML通常差别也很大
+    例如, 为选中文本应用blod命令
+    在IE和Opera中会使用<strong>标签
+    在Safari和Chrome中会使用<b>标签
+    在Firefox中会使用<span>标签
+    在富文本编辑器中, 不能依赖浏览器生成的HTML, 因为命令实现和格式转换都是通过innerHTML完成的
+
+    queryCommandEnabled()方法用于确定对当前选中文本或光标所在位置是否可以执行相关命令
+    接收1个参数, 要检查的命令名
+    如果可编辑区可以执行该命令就返回true, 否则返回false
+    返回true并不代表允许执行相关命令, 只代表当前选区适合执行相关命令
+
+    queryCommandState()方法用于确定相关命令是否应用到了当前文本选区
+    全功能富文本编辑器可以利用这个方法更新粗体, 斜体等按钮
+
+    queryCommandValue()方法用于返回执行命令时使用的值, 也就是execCommand()方法的第三个参数
+    这个方法可以用于确定如何将命令应用于文本选区, 从而进一步决定是否需要执行下一个命令
+    -->
+    <script>
+        // 在内嵌窗格中切换粗体文本样式
+        document.getElementById("bold").addEventListener("click", () => document.execCommand("bold", false, null));
+
+        // 在内嵌窗格中切换斜体文本样式
+        document.getElementById("italic").addEventListener("click", () => document.execCommand("italic", false, null));
+
+        // 在内嵌窗格中创建指向www.baidu.com的链接
+        document.getElementById("createlink").addEventListener("click", () => document.execCommand("createlink", false, "https://www.baidu.com"));
+
+        // 在内嵌窗格中为内容添加<h1>标签
+        document.getElementById("formatblock").addEventListener("click", () => document.execCommand("formatblock", false, "<h1>"));
+    </script>
+</body>
+
+</html>
