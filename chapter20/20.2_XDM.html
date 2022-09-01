@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <!-- 20.2 跨上下文消息
+    
+    跨文档消息, 有时候也简称为XDM(cross-document messaging)
+    是一种在不同上下文(如不同工作线程或不同源的页面)间传递信息的能力
+
+    在XDM之前, 要以安全方式实现这种通信需要很多工作
+    XMD以安全易用的方式规范会了这个功能
+
+    XDM的核心是postMessage()方法
+    除了XDM, 这个方法名还在HTML5中很多地方用到过, 但目的都一样, 都是把数据传送到另一个位置
+
+    [注意]
+    跨上下文消息用于窗口之间通信或工作线程之间通信
+    本节主要介绍使用postMessage()与其他窗口通信
+    关于工作线程之间通信, MessageChannel, BroadcastChannel可以参考27章
+
+    postMessage()方法接收3个参数: 消息, 表示目标接收源的字符串, 可选的可传输对象的数组(只与工作线程相关)
+    第2个参数对于安全非常重要, 其可以限制浏览器交付数据的目标
+
+    接收到XDM消息后, window对象上会触发message事件
+    这个事件是异步触发的, 因此消息发出到接收到消息可能有延迟
+    传给onmessage事件处理程序的event对象包含3方面重要属性
+    data: 作为第一个参数传递给postMessage()的字符串数据
+    origin: 发送消息的文档源, 例如"http://www.wrox.com"
+    source: 发送消息的文档中window对象的代理
+            这个代理对象主要用于在发送上一条消息的窗口中执行postMessage()方法
+            如果发送窗口有相同的源, 那么这个对象应该就是window对象
+
+    接收消息之后验证发送窗口的源是非常重要的
+    与postMessage()第2个参数可以保证数据不会意外传给未知页面一样, 在onmessage事件处理程序中检查发送窗口的源可以保证数据来自正确的地方
+
+    大多数情况下, event.source是某个window对象的代理, 而非实际的window对象
+    因此不能通过它访问所有窗口下的信息
+    最好只使用postMessage(), 这个方法永远存在而且可以调用
+
+    XDM有一些怪异之处
+    首先, postMessage()的第一个参数的最初实现始终是一个字符串
+    后来, 第一个参数改为允许任何结构的数据传入, 不过并非所有浏览器都实现了这个改变
+    为此, 最好就是只通过postMessage()发送字符串
+    如果需要传递结构化数据, 那么最好先对该数据调用JSON.stringfy(), 通过postMessage()传递之后
+    再在onmessage事件处理程序中调用JSON.parse()
+
+    在通过内嵌窗格加载不同域时, 使用XDM是非常方便的
+    这种方法在混搭和社交应用中非常常用
+    通过使用XDM与内嵌窗格中的网页通信, 可以保证包含页面的安全
+    XMD也可以用于同源页面之间通信
+    -->
+    <script>
+        let iframeWindow = document.getElementById("myframe").contentWindow;
+        // 向内嵌窗格中发送一条消息, 而且指定了源必须是"http://www.wrox.com"
+        // 如果源匹配, 那么消息将会交付到内嵌窗格
+        // 否则, postMessage()什么也不做
+        // 这个限制可以保护信息不会因为地址改变而泄露
+        // 如果不想限制接收目标, 则可以给第2个参数传递"*", 不推荐这么做
+        iframeWindow.postMessage("A secret", "http://www.wrox.com");
+
+        // 接收方验证数据来源
+        window.addEventListener("message", event => {
+            // 确保来自预期的发送者
+            if (event.origin == "http://ww.wrox.com") {
+                // 对数据进行一些处理
+                // 可选: 向来源窗口发送一条消息
+                event.source.postMessage("Received!", "http://p2p.worx.com");
+            }
+        });
+    </script>
+</body>
+
+</html>
