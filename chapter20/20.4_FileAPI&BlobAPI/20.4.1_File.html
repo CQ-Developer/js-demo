@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <input id="files-list" type="file">
+
+    <!-- 20.4.1 File类型
+    
+    File API 仍然以表单中的文件输入字段为基础, 增加了直接访问文件信息的能力
+    
+    HTML5在DOM上为文件输入元素添加了files集合
+    当用户在文件字段上选择一个或多个文件时, 这个files集合中会包含一组File对象, 表示被选中的文件
+
+    每个File对象都有一些只读属性:
+    name             | 本地系统中的文件名
+    size             | 以字节计的文件大小
+    type             | 包含文件MIME类型的字符串
+    lastModifiedDate | 表示文件最后修改时间的字符串, 该属性只有Chrome实现了
+
+    File API 还提供了FileReader类型, 让我们可以实际从文件中读取数据
+    -->
+    <script>
+        let fileList = document.getElementById("files-list");
+        fileList.addEventListener("change", event => {
+            let files = event.target.files;
+            for (let file of files) {
+                console.log(`${file.name} (${file.type}, ${file.size} bytes)`);
+            }
+        });
+    </script>
+</body>
+
+</html>
