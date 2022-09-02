@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <div class="mediaplayer">
+        <div class="video">
+            <video id="player" src="movie.mov" poster="mymovie.jpg" width="300" height="200">
+                Video player not available.
+            </video>
+        </div>
+        <div class="controls">
+            <input id="video-btn" type="button" value="Play">
+            <span id="curtime">0</span>
+            <span id="duration">0</span>
+        </div>
+    </div>
+
+    <!-- 20.5.3 自定义媒体播放器
+    
+    使用<audio>和<video>的player()和pause()方法, 可以手动控制媒体文件的播放
+    总和使用属性, 事件, 这些方法, 可以方便地创建自定义的媒体播放器
+    -->
+    <script>
+        // 取得元素的引用
+        let player = document.getElementById("player");
+        let btn = document.getElementById("video-btn");
+        let curtime = document.getElementById("curtime");
+        let duration = document.getElementById("duration");
+
+        // 更新时长
+        duration.innerHTML = player.duration;
+
+        // 为按钮添加事件处理程序
+        btn.addEventListener("click", event => {
+            if (player.paused) {
+                player.play();
+                btn.value = "Pause";
+            } else {
+                player.pause();
+                btn.value = "Palyer";
+            }
+        });
+
+        // 周期性更新当前事件
+        setInterval(() => curtime.innerHTML = player.currentTime, 250);
+    </script>
+</body>
+
+</html>
