@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <!-- 20.7.3 通知生命周期回调
+    
+    通知并非只用于显示文本字符串, 也可用于实现交互
+    Notifications API 提供了4个用于添加回调的生命周期方法
+    onshow  - 在通知显示时触发
+    onclick - 在通知被点击时触发
+    onclose - 在通知消失或通过close()关闭时触发
+    onerror - 在发生错误组织通知显示时触发
+    -->
+    <script>
+        Notification.requestPermission().then(permission => console.log("User responsed to permission request:", permission));
+        let notification = new Notification("foo");
+        
+        notification.onshow = () => console.log("Notification was shown!");
+        notification.onclick = () => console.log("Notification was clicked!");
+        notification.onclose = () => console.log("Notification was closed!");
+        notification.onerror = () => console.log("Notification was error!");
+    </script>
+</body>
+
+</html>
