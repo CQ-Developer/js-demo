@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <!-- 20.9.3 1.创建WritableStream -->
+    <script>
+        // 生成器每1000毫秒生成一个递增的整数
+        async function* ints() {
+            for (let i = 0; i < 5; i++) {
+                yield await new Promise(resolve => setTimeout(resolve, 1000, 1));
+            }
+        }
+
+        // 这些值通过可写流的公共接口可以写入流
+        // 再传给WritableStream构造函数的underlyingSink参数中
+        // 通过实现write()方法可以获得写入的数据
+        let writableStream = new WritableStream({
+            write(value) {
+                console.log(value);
+            }
+        });
+    </script>
+</body>
+
+</html>
