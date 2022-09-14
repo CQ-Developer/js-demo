@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <!-- 20.7.2 显示和隐藏通知
+    
+    Notification构造函数用于创建和显示通知
+    最简单的通知形式是只显示一个标题, 这个标题内容可以作为第一个参数传递给Notification构造函数
+
+    构造函数返回的Notification对象的close()方法可以关闭显示的通知
+    -->
+    <script>
+        // 请求权限
+        Notification.requestPermission().then(permission => console.log("User responsed to permission request:", permission));
+
+        // 立即显示通知内容
+        new Notification("Title text!");
+
+        // 可以通过options参数对通知进行自定义
+        new Notification("Title text!", { body: "Body text!", vibrate: true });
+
+        // 1000毫秒后关闭通知
+        let notification = new Notification("I will close in 1000ms");
+        setTimeout(() => notification.close(), 1000);
+    </script>
+</body>
+
+</html>
