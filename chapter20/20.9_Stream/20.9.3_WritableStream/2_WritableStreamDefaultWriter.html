@@ -21,7 +21,7 @@
         // 生成器每1000毫秒生成一个递增的整数
         async function* ints() {
             for (let i = 0; i < 5; i++) {
-                yield await new Promise(resolve => setTimeout(resolve, 1000, 1));
+                yield await new Promise(resolve => setTimeout(resolve, 1000, i));
             }
         }
 
