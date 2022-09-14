@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <!-- 20.10.2.1 User Timing API
+    
+    User Timing API 用于记录和分析自定义性能条目
+    记录自定义性能条目要使用performance.mark()方法
+    -->
+    <script>
+        performance.mark("foo");
+        console.log(performance.getEntriesByType("mark")[0]);
+    </script>
+</body>
+
+</html>
