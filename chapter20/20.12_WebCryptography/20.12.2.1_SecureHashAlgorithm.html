@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <!-- 20.12.2 1.生成密码学摘要
+    
+    计算数据的密码学摘要是非常常用的密码学操作
+    这个规范支持4种摘要算法: SHA-1, 3种SHA-2
+
+    SHA-1 (Secure Hash Algorithm 1)
+    架构类似MD5的散列函数
+    接收任意大小的输入, 生成160位消息散列
+    由于容易受到碰撞攻击, 这个算法已经不再安全
+
+    SHA-2 (Secure Hash Algorithm 2)
+    构建与相同耐碰撞单向压缩函数之上的一套散列函数
+    规范支持其中3种: SHA-256, SHA-384, SHA-512
+    生成的消息摘要可以是256位, 384位, 512位
+    这个算法被认为是安全的, 广泛引用与很多领域和协议, 包括TLS, PGP, 机密货币
+
+    SubtleCrypto.digest()方法用于生成消息摘要
+    要使用的散列算法通过字符串SHA-1, SHA-256, SHA-384, SHA-512指定
+    -->
+    <script>
+        // 使用SHA-256位字符串foo生成消息摘要
+        (async function() {
+            const textEncoder = new TextEncoder();
+            const message = textEncoder.encode("foo");
+            const messageDigest = await crypto.subtle.digest("SHA-256", message);
+            console.log(new Uint32Array(messageDigest));
+
+            // 通常在使用时, 二进制的消息摘要会转换位十六进制字符串格式
+            // 通过将二进制数据按8位进行分割, 然后再调用toString(16)就可以把任何数组缓冲区转换位十六进制字符串
+            const hexDigest = Array.from(new Uint8Array(messageDigest))
+                                   .map(x => x.toString(16).padStart(2, '0'))
+                                   .join('');
+            console.log(hexDigest);
+        })();
+    </script>
+</body>
+
+</html>
