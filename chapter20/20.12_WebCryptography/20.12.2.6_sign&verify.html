@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <!-- 20.12.2 6.使用非对称密钥签名和验证消息
+    
+    通过SubtleCrypto对象可以使用公钥算法用私钥生成签名, 或者用公钥验证签名
+    这两种操作分别通过SubtleCrypto.sign()和SubtleCrypto.verify()方法完成
+
+    签名消息需要传入参数对象以指定算法和必要的值, CryptoKey, 要签名的ArrayBuffer或ArrayBufferView
+
+    希望通过这个签名验证消息的人可以使用公钥和SubtleCrypto.verify()方法
+    这个方法的签名几乎与sign()相同, 只是必须提供公钥以及签名
+    -->
+    <script>
+        // 下面的例子会生成一个椭圆曲线密钥对
+        // 并使用私钥签名消息
+        (async function() {
+            const keyParams = { name: "ECDSA", namedCurve: "P-256" };
+            const keyUsages = ["sign", "verify"];
+            const { publicKey, privateKey } = await crypto.subtle.generateKey(keyParams, true, keyUsages);
+
+            const message = new TextEncoder().encode("I am Satoshi Nakamoto");
+            const signParams = { name: "ECDSA", hash: "SHA-256" };
+
+            const signature = await crypto.subtle.sign(signParams, privateKey, message);
+            console.log(new Uint32Array(signature));
+        })();
+
+        // 下面的例子通过验证生成的签名扩展了前面的例子
+        (async function() {
+            const keyParams = { name: "ECDSA", namedCurve: "P-256" };
+            const keyUsages = ["sign", "verify"];
+            const { publicKey, privateKey } = await crypto.subtle.generateKey(keyParams, true, keyUsages);
+
+            const message = new TextEncoder().encode("I am Satoshi Nakamoto");
+            const signParams = { name: "ECDSA", hash: "SHA-256" };
+            const signature = await crypto.subtle.sign(signParams, privateKey, message);
+            
+            const verified = await crypto.subtle.verify(signParams, publicKey, signature, message);
+            console.log(verified);
+        })();
+    </script>
+</body>
+
+</html>
