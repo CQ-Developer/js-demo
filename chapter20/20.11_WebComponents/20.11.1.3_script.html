@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <div id="foo"></div>
+    
+    <template id="bar">
+        <script>
+            console.log("Template script executed");
+        </script>
+    </template>
+
+    <!-- 20.11.1 3.模板脚本
+    
+    脚本执行可以推迟到将DocumentFragment的内容实际添加到DOM树
+
+    如果新添加的元素需要进行某些初始化, 这种延时执行时有用的
+    -->
+    <script>
+        const foo = document.querySelector("#foo");
+        
+        const bar = document.querySelector("#bar");
+        const barContent = bar.content;
+
+        console.log("about to add template");
+        foo.appendChild(barContent);
+        console.log("added template");
+    </script>
+</body>
+
+</html>
