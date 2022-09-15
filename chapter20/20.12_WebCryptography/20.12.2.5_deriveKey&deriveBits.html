@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <!-- 20.12.2 5.从主密钥派生密钥
+    
+    使用SubtleCrypto对象可以通过可配置的属性从已有的密钥获得新密钥
+    SubtleCrypto支持deriveKey(), deriveBits()
+    前者返回一个resolved为CryptoKey的Promise
+    后者返回一个resolved为ArrayBuffer的Promise
+    
+    [注意]
+    deriveKey()与deriveBits()的区别很微妙, 因为调用deriveKey()实际上与调用deriveBits()之后再把结果传给importKey()相同
+    
+    deriveBits()方法接收一个算法参数对象, 主密钥和输出的位长作为参数
+    当两个人分别拥有自己的密钥对, 但希望获得共享的加密密钥时可以使用这个方法
+
+    deriveKey()方法是类似的, 只不过返回的是CryptoKey的实例而不是ArrayBuffer
+    -->
+    <script>
+        // 下面的例子使用ECDH算法基于两个密钥对生成了对等密钥, 并确保它们派生相同的密钥位
+        (async function() {
+            const ellipticCurve = "P-256";
+            const algoIdentifier = "ECDH";
+            const deriveKeySize = 128;
+            const params = { name: algoIdentifier, namedCurve: ellipticCurve };
+            const keyUsages = ["deriveBits"];
+
+            const keyPairA = await crypto.subtle.generateKey(params, true, keyUsages);
+            const keyPairB = await crypto.subtle.generateKey(params, true, keyUsages);
+
+            // 从A的公钥和B的私钥派生密钥位
+            const derivedBitsAB = await crypto.subtle.deriveBits(Object.assign({ public: keyPairA.publicKey }, params), keyPairB.privateKey, deriveKeySize);
+            // 从B的公钥和A的私钥派生密钥位
+            const derivedBitsBA = await crypto.subtle.deriveBits(Object.assign({ public: keyPairB.publicKey }, params), keyPairA.privateKey, deriveKeySize);
+
+            const arrayAB = new Uint32Array(derivedBitsAB);
+            const arrayBA = new Uint32Array(derivedBitsBA);
+
+            // 确保密钥数组相等
+            console.log(arrayAB.length === arrayBA.length && arrayAB.every((val, i) => val === arrayBA[i]));
+        })();
+
+        // 下面的例子基于一个原始字符串, 应用PBKDF2算法将其导入一个原始主密钥, 然后派生了一个AES-GCM格式的新密钥
+        (async function() {
+            const password = "foobar";
+            const salt = crypto.getRandomValues(new Uint8Array(16));
+            const algoIdentifier = "PBKDF2";
+            const keyFormat = "raw";
+            const isExtractable = false;
+            const params = { name: algoIdentifier };
+
+            const masterKey = await crypto.subtle.importKey(keyFormat, new TextEncoder().encode(password), params, isExtractable, ["deriveKey"]);
+
+            const deriveParams = { name: "AES-GCM", length: 128 };
+
+            const derivedKey = await crypto.subtle.deriveKey(Object.assign({ salt, iterations: 1E5, hash: "SHA-256" }, params), masterKey, deriveParams, isExtractable, ["encrypt"]);
+            console.log(derivedKey);
+        })();
+    </script>
+</body>
+
+</html>
