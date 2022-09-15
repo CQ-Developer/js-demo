@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <!-- 20.12.2 使用SubtleCrypto对象
+    
+    Web Cryptography API 重头特性都暴露在了SubtleCrypto对象上, 可以通过window.crypto.subtle访问
+
+    这个对象包含一组方法, 用于执行常见的密码学功能, 如加密, 散列, 签名和生成密钥
+    因为所有密码学操作都在原始二进制数据上执行, 所以SubtleCrypto的每个方法都要用到ArrayBuffer和ArrayBufferView类型
+    由于字符串是密码学操作的重要应用场景, 因此TextEncoder和TextDecoder是经常与SubtleCrypto一起使用的类, 用于实现二进制数据与字符串之间的相关转换
+
+    [注意]
+    SubtleCrypto对象只能在安全上下文中使用
+    在不安全的上下文中, subtle属性是undefined
+    -->
+    <script>
+        // 访问SubtleCrypto对象
+        console.log(crypto.subtle);
+    </script>
+</body>
+
+</html>
