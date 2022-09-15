@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <!-- 20.10.2.2 Navigation Timing API
+    
+    Navigation Timing API 提供了高精度时间戳, 用于度量当前页面的加载速度
+    浏览器会在导航事件发生时自动记录PerformanceNavigationTiming条目
+    这个对象会捕获大量时间戳, 用于描述页面是何时以及如何加载的
+    -->
+    <script>
+        // 计算loadEventStart和loadEventEnd时间戳之间的差
+        const [ performanceNavigationTimingEntry ] = performance.getEntriesByType("navigation");
+        console.log(performanceNavigationTimingEntry);
+        console.log(performanceNavigationTimingEntry.loadEventEnd - performanceNavigationTimingEntry.loadEventStart);
+    </script>
+</body>
+
+</html>
