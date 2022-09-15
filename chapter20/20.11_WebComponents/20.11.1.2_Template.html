@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <div id="foo"></div>
+
+    <template id="bar">
+        <p></p>
+        <p></p>
+        <p></p>
+    </template>
+
+    <!-- 20.11.1 2.使用<template>标签
+    
+    注意, 在前面的例子中, DocumentFragment的所有子节点都高效地转移到了foo元素上, 转移之后DocumentFragment变空了
+    同样的过程也可以使用<template>标签重现
+
+    想要复制模板, 可以使用importNode()方法克隆DocumentFragment
+    -->
+    <script>
+        const fooElement = document.querySelector("#foo");
+        const barTemplate = document.querySelector("#bar");
+        
+        console.log(document.body.innerHTML);
+
+        const barFragment = barTemplate.content;
+        // 使用importNode()复制模板而不是移动它
+        fooElement.appendChild(document.importNode(barFragment, true));
+
+        console.log(document.body.innerHTML);
+    </script>
+</body>
+
+</html>
