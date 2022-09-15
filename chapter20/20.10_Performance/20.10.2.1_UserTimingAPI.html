@@ -11,10 +11,29 @@
     
     User Timing API 用于记录和分析自定义性能条目
     记录自定义性能条目要使用performance.mark()方法
+
+    除了自定义条目, 还可以生成PerformanceMeasure条目, 对应由名字作为标识的两个标记之间的持续时间
+    PerformanceMeasure的实例由performance.measure()方法生成
     -->
     <script>
+        // performance.mark("foo");
+        // console.log(performance.getEntriesByType("mark")[0]);
+
+        // 在计算开始前和结束后各创建一个自定义性能条目可以计算时间差
+        // 最新的标记会被推到getEntriesByType()返回数组的开始
         performance.mark("foo");
-        console.log(performance.getEntriesByType("mark")[0]);
+        for (let i = 0; i < 1E6; i++) {}
+        performance.mark("bar");
+        const [ endMark, startMark ] = performance.getEntriesByType("mark");
+        console.log(startMark.startTime - endMark.startTime);
+
+        performance.mark("aoo");
+        for (let i = 0; i < 1E6; i++) {}
+        performance.mark("boo");
+        // performance.measure()
+        performance.measure("measure", "aoo", "boo");
+        const [ differenceMark ] = performance.getEntriesByType("measure");
+        console.log(differenceMark);
     </script>
 </body>
 
