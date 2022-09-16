@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <!-- 24.1.1 使用XHR
+    
+    使用XHR对象首先要调用open()方法, 这个方法接收3个参数: 请求类型, 请求URL, 表示请求是否异步的布尔值
+    调用open()不会实际发送请求, 只是为了发送请求做好准备
+
+    注意
+    只能访问同源URL, 也就是域名相同, 端口相同, 协议相同
+    如果请求的URL与发送请求的页面在任何方面有所不同, 则会抛出安全错误
+
+    要发送定义好的请求, 需要调用send()方法
+    send()方法接收一个参数, 是作为请求体发送的数据
+    如果不需要发送请求体, 则必须传null, 因为这个参数在某些浏览器中是必须的
+    调用send之后, 请求就会发送到服务器
+
+    如果请求是同步的, 则JS代码会等待服务器响应之后再继续执行
+    收到响应后, XHR对象的以下属性会被填充上数据
+    - responseText: 作为响应体返回的文本
+    - responseXML: 如果响应的内容类型是"text/xml", "application/xml", 那就是包含响应数据的 XML DOM 文档
+    - status: 响应的HTTP状态
+    - statusText: 响应的HTTP状态描述
+
+    收到响应后, 第一步要检查status属性以确保响应成功返回
+    一般来说, HTTP状态码为2xx表示成功
+    此时, responseText或responseXML属性中会有内容
+    如果HTTP状态码304, 则表示资源未修改过, 是从浏览器缓存中直接拿取的
+    当然这也意味着响应有效
+
+    为确定下一步改执行什么操作, 最好检查status而不是statusText属性, 因为后者在跨浏览器中不可靠
+    无论什么响应内容类型, responseText属性始终会保存响应体, 而responseXML则对于非XML数据是null
+
+    多数情况下最好使用异步请求, 这样可以不阻塞JS代码继续执行
+    XHR对象有一个readyState属性, 表示当前处在请求/响应过程的哪个阶段
+    这个属性有如下可能的值:
+    | 0 | 未初始化(Uninitialized) | 尚未调用open()方法
+    | 1 | 已打开(Open)            | 已调用open()方法, 尚未调用send()方法
+    | 2 | 已发送(Sent)            | 已调用send()方法, 尚未收到响应
+    | 3 | 接受中(Receiving)       | 已经收到部分响应
+    | 4 | 完成(Complete)          | 已经收到所有响应, 可以使用了
+
+    每次readyStatus从一个值变成另一个值, 都会触发readystatechange事件
+    可以见此机会检查readyState的值是4, 表示数据已就绪
+    为了保证跨浏览器兼容, onreadystatechange事件处理程序应该在调用open()之前赋值
+    -->
+    <script>
+        let xhr = new XMLHttpRequest();
+        // readyState
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4) {
+                if (xhr.status >= 200 && xhr.status < 300 || xhr.status == 304) {
+                    console.info(xhr.responseText);
+                } else {
+                    console.error("Request was unsuccessful: " + xhr.status);
+                }
+            }
+        };
+        // open
+        xhr.open("get", "example.php", false);
+        // send()
+        xhr.send(null);
+        // 检查状态码
+        if (xhr.status >= 200 && xhr.status < 300 || xhr.status == 304) {
+            console.info(xhr.responseText);
+        } else {
+            console.error("Request was unsuccessful: " + xhr.status);
+        }
+    </script>
+</body>
+
+</html>
