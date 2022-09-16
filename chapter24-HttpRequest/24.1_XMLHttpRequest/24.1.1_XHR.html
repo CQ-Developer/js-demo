@@ -80,12 +80,6 @@
         xhr.open("get", "http://localhost:8080/hello", true);
         // send()
         xhr.send(null);
-        // 检查状态码
-        if (xhr.status >= 200 && xhr.status < 300 || xhr.status == 304) {
-            console.info(xhr.responseText);
-        } else {
-            console.error("Request was unsuccessful: " + xhr.status);
-        }
     </script>
 </body>
 
