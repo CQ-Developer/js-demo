@@ -17,7 +17,7 @@
  */
 let book = {
     title: "Professional JavaScript",
-    dition: 4,
+    edition: 4,
     year: 2017,
     authors: [
         "Nicholas C. Zakas",
