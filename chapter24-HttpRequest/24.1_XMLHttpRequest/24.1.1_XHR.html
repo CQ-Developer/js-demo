@@ -49,6 +49,20 @@
     每次readyStatus从一个值变成另一个值, 都会触发readystatechange事件
     可以见此机会检查readyState的值是4, 表示数据已就绪
     为了保证跨浏览器兼容, onreadystatechange事件处理程序应该在调用open()之前赋值
+
+    推荐使用 DOM Level 0 风格为XHR对象添加事件处理程序, 因为并不是所有浏览器都支持 DOM Level 2 风格
+    与其他事件处理程序不同, onreadystatechange事件处理程序不会收到event对象
+    在事件处理程序中必须使用XHR对象本身来确定接下来做什么
+
+    [注意]
+    由于onreadystatechange事件处理程序的作用域问题, 最好使用xhr对象而不是this对象
+    使用this可能导致功能失败或导致错误, 取决于用户使用的是什么浏览器
+    因此还是使用保存XHR对象的变量更保险一些
+
+    在收到响应之前如果想取消异步请求, 可以调用abort()方法
+    调用这个方法后, XHR对象会停止出发事件, 并阻止访问这个对象上任何与相应相关的属性
+    中断请求后, 应该取消对XHR对象的引用
+    由于内存问题, 不推荐重用XHR对象
     -->
     <script>
         let xhr = new XMLHttpRequest();
@@ -63,7 +77,7 @@
             }
         };
         // open
-        xhr.open("get", "example.php", false);
+        xhr.open("get", "http://localhost:8080/hello", true);
         // send()
         xhr.send(null);
         // 检查状态码
