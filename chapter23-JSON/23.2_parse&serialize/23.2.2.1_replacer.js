@@ -14,7 +14,7 @@
  * 注意, 函数过滤器会应用到要序列化的对象所包含的所有对象
  * 因此如果数组中包含多个具有这些属性的对象, 则序列化之后每个对象都只会剩下上面这些属性
  */
- let book = {
+let book = {
     title: "Professional JavaScript",
     edition: 4,
     year: 2017,
