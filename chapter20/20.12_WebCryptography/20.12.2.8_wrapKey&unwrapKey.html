@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <!-- 29.12.2 8.包装和解包密钥
+    
+    SubtleCrypto对象支持包装和解包密钥, 以便在非信任渠道传输
+    这两种操作分别通过SubtleCrypto.wrapKey()和SubtleCrypt.unwrapKey()方法完成
+
+    包装密钥需要传入:
+        一个格式字符串
+        要包装的CryptoKey实例
+        要执行包装的CryptoKey
+        一个参数对象用于指定算法和必要的值
+    -->
+    <script>
+        // 下面的例子生成了一个对称AES-GCM密钥
+        // 用AES-KW来包装这个密钥, 最后又将包装的密钥解包
+        async function demo() {
+            const extractable = true;
+            
+            const keyFormat = "raw";
+            const keyAlgorithm = "AES-GCM";
+            const keyUsages = ["encrypt"];
+            const keyParmas = { name: keyAlgorithm, length: 256 };
+
+            const wrappingKeyAlgorithm = "AES-KW";
+            const wrappingKeyUsages = ["wrapKey", "unwrapKey"];
+            const wrappingKeyParams = { name: wrappingKeyAlgorithm, length: 256 };
+
+            // 包装密钥
+            const wrappingKey = await crypto.subtle.generateKey(wrappingKeyParams, extractable, wrappingKeyUsages);
+            console.log(wrappingKey);
+
+            // 密钥
+            const key = await crypto.subtle.generateKey(keyParmas, extractable, keyUsages);
+            console.log(key);
+
+            // 包装后的密钥
+            const wrappedKey = await crypto.subtle.wrapKey(keyFormat, key, wrappingKey, wrappingKeyAlgorithm);
+            console.log(wrappedKey);
+
+            // 解包后的密钥
+            const unwrappedKey = await crypto.subtle.unwrapKey(keyFormat, wrappedKey, wrappingKey, wrappingKeyParams, keyParmas, extractable, keyUsages);
+            console.log(unwrappedKey);
+        }
+
+        // 执行
+        demo();
+    </script>
+</body>
+
+</html>
