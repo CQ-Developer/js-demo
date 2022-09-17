@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <!-- 24.2.1 load事件
+    Firefox最初在实现XHR的时候, 曾致力于简化交互模式
+    最终, 增加了一个load事件用于替代readystatechange事件
+    
+    load事件在响应接收完成后立即触发, 这样就不用检查readyState属性了
+    onload事件处理程序会接收一个event对象, 其target属性设置为XHR实例, 在这个实例上可以访问所有XHR对象属性和方法
+    不过, 并不是所有浏览器都实现了这个事件的event对象
+    考虑到跨浏览器兼容性, 最好直接使用XHR实例对象
+
+    只要是从服务器收到响应, 无论状态码是什么, 都会触发load事件
+    这意味着还需要检查status属性才能确定数据是否有效
+    -->
+    <script></script>
+</body>
+
+</html>
