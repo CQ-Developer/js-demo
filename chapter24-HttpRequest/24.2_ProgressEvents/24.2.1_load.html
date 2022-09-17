@@ -2,11 +2,10 @@
 <html>
 
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
 </head>
 
 <body>
-
     <!-- 24.2.1 load事件
     Firefox最初在实现XHR的时候, 曾致力于简化交互模式
     最终, 增加了一个load事件用于替代readystatechange事件
@@ -19,7 +18,19 @@
     只要是从服务器收到响应, 无论状态码是什么, 都会触发load事件
     这意味着还需要检查status属性才能确定数据是否有效
     -->
-    <script></script>
+    <script>
+        let xhr = new XMLHttpRequest();
+        xhr.onload = function (event) {
+            let target = event.target;
+            if ((target.status >= 200 && target.status < 300) || target.status == 304) {
+                console.log(target.responseText);
+            } else {
+                console.log("response was unsuccessful", target.status);
+            }
+        };
+        xhr.open("get", "http://localhost:8080/hello", true);
+        xhr.send(null);
+    </script>
 </body>
 
 </html>
