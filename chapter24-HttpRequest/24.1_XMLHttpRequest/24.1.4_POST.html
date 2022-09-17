@@ -7,8 +7,47 @@
 
 <body>
 
-    <!-- 24.1.4 POST请求 -->
-    <script></script>
+    <!-- 24.1.4 POST请求
+    
+    第二个最常用的请求是POST请求, 用于向服务器发送应该保存的数据
+    每个POST请求都应该再请求体中携带提交的数据, 而GET请求则不然
+    POST请求的请求体可以包含非常多的数据, 而且数据可以是任意格式
+    要初始化POST请求, open()方法的第一个参数要传"post"
+
+    接下来就要给send()方法传入要发送的数据
+    因为XHR最初主要设计用于发送XML, 所以可以传入序列化之后的 XML DOM 文档作为请求体
+    当然, 也可以传入任意字符串
+
+    默认情况下, 对服务器而言, POST请求与提交表单是不一样的
+    服务器逻辑需要读取原始POST数据才能取得浏览器发送的数据
+    不过, 可以使用XHR模拟提交表单
+    为此, 第一步需要把Content-Type头部设置为"application/x-www-formurlencoded", 这是提交表单时使用的内容类型
+    第二步是创建对应格式的字符串
+    POST数据为此使用与查询字符串相同的格式
+    如果网页中确实有一个表单需要序列化并通过XHR发送到服务器, 则可以使用第14章的serilize()函数来创建相应的字符串
+
+    注意
+    POST请求相比GET请求要占用更多资源
+    从性能方面说, 发送相同数量的数据, GET请求比POST请求要快两倍
+    -->
+    <script>
+        let user = { id: 1, name: "huhu" };
+        
+        let xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4) {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    console.log("收到服务器相应", xhr.responseText);
+                } else {
+                    console.error("发生错误", xhr.status);
+                }
+            }
+        };
+        
+        xhr.open("post", "http://localhost:8080/save", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.send(JSON.stringify(user));
+    </script>
 </body>
 
 </html>
