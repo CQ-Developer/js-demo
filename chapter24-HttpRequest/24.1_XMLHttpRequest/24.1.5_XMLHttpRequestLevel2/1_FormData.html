@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <!-- 24.1.5 1.FormData类型
+    
+    现代Web应用程序中经常需要对表单数据进行序列化, 因此 XMLHttpRequest Level 2 新增了FormData类型
+    FormData类型便于表单序列化, 也便于创建与表单类似格式的数据然后通过XHR发送
+
+    append()方法接收两个参数: 键, 值
+    相当于表单字段名称和该字段的值, 可以添加任意多个键值对数据
+    此外, 通过直接给FormData构造函数传入一个编导你元素, 也可以将表单中的数据作为键值对填充进去
+
+    使用FormData的另一个方便之处是不在需要给XHR对象显示设置任何请求头部了
+    XHR对象能够识别作为FormData实例传入的数据类型并自动配置相应的头部
+    -->
+    <script>
+        // 创建一个表单对象
+        // 也可以直接填充表单 let formData = new FormData(document.forms[0]);
+        let form = new FormData();
+        form.append("id", "1");
+        form.append("name", "huhu");
+
+        let xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4) {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    console.log("收到服务器相应", xhr.responseText);
+                } else {
+                    console.error("发生错误", xhr.status);
+                }
+            }
+        };
+        
+        xhr.open("post", "http://localhost:8080/save", true);
+        xhr.send(form);
+    </script>
+</body>
+
+</html>
