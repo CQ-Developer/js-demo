@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <!-- 24.5.2 - 1.发送JSON数据 -->
+    <script>
+        let payload = JSON.stringify({ id: 1, name: "huhu" });
+        let httpHeaders = new Headers({ 'Content-Type': 'application/json' });
+        fetch("http://localhost:8080/save", { method: "POST", body: payload, headers: httpHeaders })
+            .then(response => response.text())
+            .then(data => console.log(data))
+            .catch(err => console.error(err));
+    </script>
+</body>
+
+</html>
