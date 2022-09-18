@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <!-- 24.5.1 - 2.读取响应
+    
+    读取响应的最简单方式是取得纯文本格式内容, 这要用到text()方法
+    这个方法返回一个Promise, 会resolve为取得资源的完整内容
+    -->
+    <script>
+        fetch("http://localhost:8080/hello")
+            .then(response => response.text())
+            .then(data => console.log(data));
+    </script>
+</body>
+
+</html>
