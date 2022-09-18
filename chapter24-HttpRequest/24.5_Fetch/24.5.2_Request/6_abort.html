@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <!-- 24.5.2 - 6.中断请求
+    
+    Fetch API 支持通过AbortController/AbortSignal对中断请求
+    调用AbortController.abort()会中断所有网络传输, 特别适合希望停止传输大型负载的情况
+    中断进行中的fetch()请求会导致包含错误的rejected
+    -->
+    <script>
+        let abortController = new AbortController();
+
+        fetch("http://localhost:8080/hello", { signal: abortController }).catch(() => console.log("aborted!"));
+
+        // 10毫秒后中断请求
+        setTimeout(() => abortController.abort(), 10);
+    </script>
+</body>
+
+</html>
