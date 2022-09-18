@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <img>
+
+    <!-- 24.5.2 - 1.加载Blob文件
+    
+    Fetch API 也能提供Blob类型的响应, 而Blob又可以兼容多种浏览器API
+    一种常见的做法是明确将图片加载到内存, 然后将其添加到HTML图片元素
+    为此, 可以使用响应对象上暴露的blob()方法
+    这个方法返回一个Promise, resolve为一个Blob的实例
+    然后, 可以将这个实例传给URL.createObjectURL()以生成可以添加给图片元素src属性的值
+    -->
+    <script>
+        const imageElement = document.querySelector("img");
+        fetch("http://localhost:8080/img")
+            .then(response => response.blob())
+            .then(blob => imageElement.src = URL.createObjectURL(blob));
+    </script>
+</body>
+
+</html>
