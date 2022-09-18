@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <!-- 24.5.3 1.Headers和Map的相似之处
+    
+    Headers对象和Map对象极为相似
+    这是合理的, 因为HTTP头部本质上是序列化后的键值对, 它们的JS表示是中间接口
+    Headers与Map类型都有get(), set(), has(), delete()等实例方法
+    -->
+    <script>
+        let h = new Headers();
+        let m = new Map();
+
+        // 设置键
+        h.set("foo", "bar");
+        m.set("foo", "bar");
+
+        // 检查键
+        console.log(h.has("foo"));
+        console.log(m.has("foo"));
+        console.log(h.has("qux"));
+        console.log(m.has("qux"));
+
+        // 获取值
+        console.log(h.get("foo"));
+        console.log(m.get("foo"));
+
+        // 更新值
+        h.set("foo", "baz");
+        m.set("foo", "baz");
+
+        // 取得更新的值
+        console.log(h.has("foo"));
+        console.log(m.has("foo"));
+
+        // 删除键
+        h.delete("foo");
+        m.delete("foo");
+
+        // 确定值已删除
+        console.log(h.has("foo"));
+        console.log(m.has("foo"));
+
+        // Headers和Map都可以使用一个可迭代对象来初始化
+        let seed = [["foo", "bar"]];
+        
+        h = new Headers(seed);
+        m = new Map(seed);
+        
+        console.log(h.has("foo"));
+        console.log(m.has("foo"));
+
+        // 都有相同的keys(), values(), entries()迭代器接口
+        seed = [["foo", "bar"], ["baz", "qux"]];
+        
+        h = new Headers(seed);
+        m = new Map(seed);
+
+        console.log(...h.keys());
+        console.log(...m.keys());
+
+        console.log(...h.values());
+        console.log(...m.values());
+
+        console.log(...h.entries());
+        console.log(...m.entries());
+    </script>
+</body>
+
+</html>
