@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <!-- 24.5.3 2.Headers独有特性
+    
+    Headers并不是与Map处处都一样
+    在初始化Headers对象时, 也可以使用键值对形式的对象, 而Map不可以
+
+    一个Http头部字段可以有多个值, 而Headers对象通过append()方法支持添加多个值
+    在Headers实例中还不存在的头部上调用append()方法相当于调用set()
+    后续调用会以逗号为分隔符拼接多个值
+    -->
+    <script>
+        // 使用键值对对象初始化Headers
+        let seed = { foo: "bar" };
+        let headers = new Headers(seed);
+        console.log(headers.get("foo"));
+
+        // append()
+        headers = new Headers();
+        
+        headers.append("foo", "bar");
+        console.log(headers.get("foo"));
+
+        headers.append("foo", "baz");
+        console.log(headers.get("foo"));
+    </script>
+</body>
+
+</html>
