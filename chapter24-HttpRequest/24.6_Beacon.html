@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <!-- 24.6 Beacon API
+        https://developer.mozilla.org/en-US/docs/Web/API/Navigator/sendBeacon
+
+    在unload事件触发时, 分析工具要停止收集信息并把收集到的数据发送给服务器
+    这时候有一个问题, 因为unload事件对浏览器意味着没有理由再发送任何结果未知的网络请求, 因为页面都要被销毁了
+    
+    在unload事件处理程序中创建的任何异步请求都会被浏览器取消
+    为此, 异步XMLHttpRequest或fetch()不适合这个任务
+    
+    如果使用同步XMLHttpRequest强制发送请求, 会导致用户体验问题
+    浏览器会因为要等待unload事件处理程序完成而延迟导航到下一个页面
+
+    为了解决这个问题, W3C引入了补充性的 Beacon API
+    这个API给navigator对象增加了一个sendBeacon()方法
+    这个简单的方法接收一个URL和一个数据有效荷载, 并会发送一个POST请求
+    如果请求成功进入了最终要发送的任务队列, 则这个方法返回true, 否则返回false
+
+    这个方法虽然看起来只不过是POST请求的一个语法糖, 但它有几个重要的特性
+    - sendBeacon()并不是只能在页面生命周期末尾使用, 而是任何时候都可以使用
+    - 调用sendBeacon()后, 浏览器会把请求添加到一个内部的请求队列, 浏览器会主动地发送队列中的请求
+    - 浏览器保证在原始页面已经关闭的情况下也会发送请求
+    - 状态码, 超时和其他网络原因造成的失败完全是不透明的, 不能通过编程方式处理
+    - 信标请求会携带调用sendBeacon()时所有相关的cookie
+    -->
+    <script>
+        window.addEventListener("unload", event => {
+            let formData = new FormData();
+            formData.append("foo", "bar");
+            navigator.sendBeacon("http://localhost:8080/demo/hello", formData);
+        });
+    </script>
+</body>
+
+</html>
