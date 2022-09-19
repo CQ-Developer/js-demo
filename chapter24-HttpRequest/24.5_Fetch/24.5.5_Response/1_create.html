@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <!-- 24.5.5  1.创建Response对象
+    https://developer.mozilla.org/en-US/docs/Web/API/Response
+
+    可以通过构造函数初始化Response对象且不需要参数
+    此时响应实例的属性均为默认值, 因为它并不代表实际的HTTP响应
+
+    Response构造函数接收一个可选的body参数
+    这个body可以是null, 等同于fetch()参数init中的body
+    还可以接收一个可选的init对象, 这个对象可以包含下表所列的键和值
+
+    大多数情况下, 产生Response对象的主要方式是调用Fetch(), 它返回一个最后resolve为Response对象的Promise, 这个Response对象代表实际的HTTP响应
+
+    Response类还有两个用于生成Response对象的静态方法: Response.redirect()和Response.error()
+    前者接收一个URL和一个重定向状态, 返回重定向的Response对象, 提供的状态码必须对应重定向, 否则抛出错误
+    另一个静态方法Response.error()用于产生表示网络错误的Response对象, 网络错误会导致fetch()的Promise被reject
+    -->
+    <script>
+        // 默认值
+        console.log(new Response());
+
+        // 使用body和init
+        console.log(new Response("foo", { status: 418, statusText: "I'm a teapot" }));
+
+        // 重定向
+        console.log(Response.redirect("http://localhost:8080/demo/hello", 301));
+
+        // 错误
+        console.log(Response.error());
+    </script>
+</body>
+
+</html>
