@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <!-- 24.5.6  2.Body.json()
+        https://developer.mozilla.org/en-US/docs/Web/API/Request/json
+        https://developer.mozilla.org/en-US/docs/Web/API/Response/json
+    
+    Body.json()方法返回Promise, resolve为将缓冲器转存得到的JSON
+    -->
+    <script>
+        // Response的json()
+        fetch("http://localhost:8080/demo/1")
+            .then(response => response.json())
+            .then(console.log);
+        
+        // Request的json()
+        let request = new Request("http://localhost:8080/demo/1", { method: "POST", body: JSON.stringify({ bar: "baz" }) });
+        request.json().then(console.log);
+    </script>
+</body>
+
+</html>
