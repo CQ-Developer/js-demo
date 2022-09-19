@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <!-- 25.1.3 JavaScript中的cookie
+        https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie
+    
+    在JS中处理cookie比较麻烦, 因为接口过于简单, 只有BOM的document.cookie属性
+    根据用法不同, 该属性的表现迥异
+    要使用该属性获取值时, document.cookie返回包含页面中所有有效cookie的字符串
+    根据域, 路径, 国企时间, 安全设置, 以分号分隔
+
+    所有名和值都是URL编码的, 因此必须使用decodeURIComponent()解码
+
+    在设置值时, 可以通过document.cookie属性设置新的cookie字符串
+    这个字符串在被解析后会添加到原有cookie中
+    设置document.cookie不会覆盖之前存在的任何cookie, 除非设置了已有的cookie
+    设置cookie的格式和Set-Cookie头部的格式相同
+
+    在所有这些参数中, 只有cookie的名称和值是必须的
+
+    cookie在每次客户端向服务器发送请求时都会被带上, 在浏览器关闭时就会被删除
+    虽然这样直接设置也可以, 因为不需要再名称或值中编码任何字符, 但最好还是使用encodeURIComponent()对名称和值进行编码
+
+    因为再JS中读写cookie不是很直观, 所以可以通过辅助函数来简化响应的操作
+    与cookie相关的基本操作有读, 写, 删除
+
+    通过CookieUtil的方法处理解析和cookie字符串构建, 简化了使用cookie存储数据的操作
+    -->
+    <script>
+        // 设置cookie
+        document.cookie = "name=Nicholas";
+
+        // 进行编码
+        document.cookie = encodeURIComponent("name") + "=" + encodeURIComponent("Nicholas");
+
+        class CookieUtil {
+            /**
+             * get()方法用于取得给定名称的cookie值
+             * 为此, 需要在document.cookie返回的字符串中查找是否存在名称后面加上等号
+             * 如果找到, 则使用indexOf()再查找该位置后面的分号, 表示该cookie的末尾
+             * 如果没有找到分号, 说明这个cookie在字符串末尾, 因此字符串剩余剩余部分都是cookie的值
+             * 取得cookie值后使用decodeURIComponent()解码, 然后返回
+             * 如果没有找到cookie, 则返回null
+             */
+            static get(name) {
+                let cookieName = encodeURIComponent(name) + "=";
+                let cookieStart = document.cookie.indexOf(cookieName);
+                let cookieValue = null;
+                if (cookieStart > -1) {
+                    let cookieEnd = document.cookie.indexOf(";", cookieStart);
+                    if (cookieEnd == -1) {
+                        cookieEnd = document.cookie.length;
+                    }
+                    cookieValue = decodeURIComponent(document.cookie.substring(cookieStart + cookieName.length, cookieEnd));
+                }
+                return cookieValue;
+            }
+            /**
+             * set()方法用于设置页面上的cookie, 接收多个参数
+             * 这些参数以它们的使用频率为序, 只有前两个时必须的
+             * 在方法内部, 使用了encodeURIComponent()对名称和值进行编码, 然后再依次检查其他参数
+             * 如果expires参数时Date对象, 则使用Date对象的toGMTString()方法添加一个expires选项来获得正确的日期格式
+             * 剩下的代码就是简单地追加cookie字符串, 最终设置给document.cookie
+             */
+            static set(name, value, expires, path, domain, secure) {
+                let cookieText = `${encodeURIComponent(name)}=${encodeURIComponent(value)}`;
+                if (expires instanceof Date) {
+                    cookieText += `; expires=${expires.toGMTString()}`;
+                }
+                if (path) {
+                    cookieText += `; path=${path}`;
+                }
+                if (domain) {
+                    cookieText += `; domain=${domain}`;
+                }
+                if (secure) {
+                    cookieText += `; secure`;
+                }
+                document.cookie = cookieText;
+            }
+            /**
+             * 没有直接删除已有cookie的方法
+             * 为此, 需要再次设置同名cookie, 但要将其过期时间设置为某个过去的时间
+             * CookieUtil.unset()方法实现了这些处理
+             * 
+             * 这些参数会传给CookieUtil.set(), 将cookie值设置为空字符串
+             * 将过期时间设置为1970年1月1日
+             * 这样可以保证删除cookie
+             */
+            static unset(name, path, domain, secure) {
+                CookieUtil.set(name, "", new Date(0), path, domain, secure);
+            }
+        }
+
+        // 设置cookie
+        CookieUtil.set("name", "Nicholas");
+        CookieUtil.set("book", "Professional JavaScript");
+
+        // 读取cookie
+        console.log(CookieUtil.get("name"));
+        console.log(CookieUtil.get("book"));
+
+        // 删除cookie
+        CookieUtil.unset("name");
+        CookieUtil.unset("book");
+    </script>
+</body>
+
+</html>
