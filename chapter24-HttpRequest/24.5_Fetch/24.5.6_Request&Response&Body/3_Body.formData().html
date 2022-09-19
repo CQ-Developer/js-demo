@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <!-- 24.5.6  3.Body.formData()
+        https://developer.mozilla.org/en-US/docs/Web/API/Request/formData
+        https://developer.mozilla.org/en-US/docs/Web/API/Response/formData
+
+    浏览器可以将FormData对象序列化/反序列化为主体
+
+    Body.formData()方法返回Promise, resolve为将缓冲区转存得到的FormData实例
+    -->
+    <script>
+        let myFormData = new FormData();
+        myFormData.append("foo", "bar");
+
+        // Response
+        fetch("http://localhost:8080/demo/1")
+            .then(response => response.formData())
+            .then(formData => console.log(formData.get("id"), formData.get("name")));
+        
+        // Request
+        let request = new Request("http://localhost:8080/demo/save", { method: "POST", body: myFormData });
+        request.formData().then(formData => console.log(formData.get("foo")));
+    </script>
+</body>
+
+</html>
