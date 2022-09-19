@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <!-- 24.5.4  3.在fetch()中使用Request对象
+    https://developer.mozilla.org/en-US/docs/Web/API/Request
+
+    fetch()和Request构造函数拥有相同的函数签名并不是巧合
+    在调用fetch()时, 可以传入已经创建好的Request实例而不是URL
+    与Request构造函数一样, 传给fetch()的init对象会覆盖传入请求对象的值
+    
+    fetch()会在内部克隆传入的Request对象
+    与克隆Request一样, fetch()也不能拿请求体已经用过的Request对象来发送请求
+
+    关键在于, 通过fetch使用Request会将请求体标记为已使用
+    也就是说, 有请求体的Request只能在一次fetch中使用, 不包含请求体的请求不受此限制
+
+    想要基于包含请求体的相同Request对象多次调用fetch(), 必须在第一次发送fetch()请求前调用clone()
+    -->
+    <script>
+        let r1 = new Request("http://localhost:8080/demo/hello");
+        // 发送get请求
+        fetch(r1).then(response => response.text()).then(data => console.log(data));
+        // 发送post请求
+        fetch(r1, { method: "POST" }).then(response => response.text()).then(data => console.log(data));
+    </script>
+</body>
+
+</html>
