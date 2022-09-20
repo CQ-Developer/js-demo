@@ -34,7 +34,10 @@
         let version = 1;
         request = indexedDB.open("admin", version);
         request.onerror = event => console.log(`Fail to open: ${event.target.errorCode}`);
-        request.onsuccess = event => db = event.target.result;
+        request.onsuccess = event => {
+            db = event.target.result;
+            console.log("Open db success: ", db);
+        };
     </script>
 </body>
 
