@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <!-- 25.3.1 数据库
+        https://developer.mozilla.org/en-US/docs/Web/API/IDBFactory/open
+        https://developer.mozilla.org/en-US/docs/Web/API/IDBRequest#events
+        https://developer.mozilla.org/en-US/docs/Web/API/IDBDatabase
+    
+        IndexedDB是类似于MySQL或WebSQLDatabase的数据库
+        与传统数据库最大的区别在于, IndexedDB使用对象存储而不是表格保存数据
+        IndexedDB数据库就是一个公共命名空间下的一组对象存储, 类似与NoSQL风格的实现
+
+        使用IndexedDB数据库的第一步是调用indexedDB.open()方法, 并给它传入一个要打开的数据库名称
+        如果给定名称的数据库已存在, 则会发送一个打开它的请求
+        如果不存在, 则会发送创建并打开这个数据库的请求
+        这个方法会返回IDBRequest的实例, 可以在这个实例上添加onerror和onsuccess事件处理程序
+
+        以前, IndexedDB使用setVersion()方法指定版本号, 这个方法目前已废弃
+        要在打开数据的时候指定版本, 这个版本号会被转换为一个 unsigned long long 数值, 因此不要使用小数, 而要使用整数
+
+        在两个事件处理程序中, event.target都指向request, 因此使用哪个都可以
+        如果onsuccess事件处理程序被调用, 说明可以通过event.target.result访问数据库(IDBDatabase)实例了
+        如果打开数据库期间发生错误, event.target.errorCode中就会存储表示问题的错误码
+    -->
+    <script>
+        let db;
+        let request;
+        let version = 1;
+        request = indexedDB.open("admin", version);
+        request.onerror = event => console.log(`Fail to open: ${event.target.errorCode}`);
+        request.onsuccess = event => db = event.target.result;
+    </script>
+</body>
+
+</html>
