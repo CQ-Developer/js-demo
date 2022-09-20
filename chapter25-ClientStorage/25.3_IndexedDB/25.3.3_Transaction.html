@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <!-- 25.3.3 事务
+        https://developer.mozilla.org/en-US/docs/Web/API/IDBDatabase/transaction
+        https://developer.mozilla.org/en-US/docs/Web/API/IDBTransaction
+        https://developer.mozilla.org/en-US/docs/Web/API/IDBObjectStore
+        https://developer.mozilla.org/en-US/docs/Web/API/IDBRequest
+
+        创建了对象存储之后, 剩下的所有操作都是通过事务完成的
+        事务要通过调用数据库对象的transaction()方法创建
+        任何时候, 只要想读取或修改数据, 都要通过事务把所有修改操作组织起来
+
+        如果不指定参数, 则对数据库中所有的对象存储有只读权限
+        更具体的方式是指定一个或多个要访问的对象存储的名称
+
+        每个事务都以只读方式访问数据
+        要修改访问模式, 可以传入第二个参数
+        这个参数应该是下列三个字符串之一: readonly, readwrite, versionchange
+
+        有了事务的引用, 就可以使用objectStore()方法并传入对象存储的名称以访问特定的对象存储
+        然后, 可以使用add(), put()方法添加和更新对象, 使用get()取得对象, 使用delete()删除对象, 使用clear()删除所有对象
+        其中, get()和delete()方法都接收对象键作为参数, 这5个方法都创建新的请求对象
+
+        因为一个事务可以完成任意多个请求, 所以事务对象本身也有事件处理程序: onerror, oncomplete
+        这两个事件可以用来获取事务级的状态信息
+        注意, 不能通过oncomplete事件处理程序的event对象访问get()请求返回的任何数据
+        因此, 仍然需要通过这些请求的onsuccess事件处理程序来获取数据
+    -->
+    <script>
+        let request = indexedDB.open("admin");
+        request.addEventListener("upgradeneeded", event => {
+            const database = event.target.result;
+            // 创建事务
+            let t1 = database.transaction();
+            // 指定对象存储的名称
+            let t2 = database.transaction("users");
+            // 指定多个对象存储的名称
+            let t3 = database.transaction(["users", "anotherStore"]);
+            // 对users存储对象读写
+            let t4 = database.transaction("users", "readwrite");
+
+            // 访问特定的对象存储
+            let store = t2.objectStore("user");
+            let request = store.get("007");
+            request.addEventListener("error", event => {
+                console.log("Did not get the object!");
+            });
+            request.addEventListener("success", event => {
+                console.log(evetn.target.result.firstName);
+            });
+
+            // 事务本身的事件处理程序
+            t2.addEventListener("error", event => {
+                // 整个事务被取消
+            });
+            t2.addEventListener("complete", event => {
+                // 整个事务成功完成
+            });
+        });
+    </script>
+</body>
+
+</html>
