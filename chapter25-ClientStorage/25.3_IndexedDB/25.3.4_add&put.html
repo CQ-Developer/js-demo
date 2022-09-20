@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <!-- 25.3.4 插入对象
+        https://developer.mozilla.org/en-US/docs/Web/API/IDBObjectStore/add
+        https://developer.mozilla.org/en-US/docs/Web/API/IDBObjectStore/put
+
+        拿到了对象存储的引用后, 就可以使用add()或put()写入数据了
+        这两个方法都接收一个参数, 即要存储的对象, 并把对象保存到对象存储
+        这两个方法只在对象存储中已存在同名的键时有区别
+        这种情况下, add()会导致错误, 而put()会简单地重写该对象
+        更简单地说, 可以把add()想象成插入新值, 而把put()想象成更新值
+
+        每次调用add()或put()都会创建对象存储的新更新请求
+        如果想验证请求成功与否, 可以把请求对象保存到一个变量, 然后为它添加onerror和onsuccess事件处理程序
+    -->
+    <script>
+        let users = [
+            { id: "001", username: "张三", nationality: "China" },
+            { id: "002", username: "李四", nationality: "America" },
+            { id: "003", username: "王五", nationality: "RUSSIA" }
+        ];
+        let request = indexedDB.open("myDB", 1);
+        request.addEventListener("error", event => {
+            console.error("Fail to open IndexedDB myDB");
+        });
+        request.addEventListener("success", event => {
+            console.log("success to open IndexDB myDB");
+            let db = event.target.result;
+            // 开启事务
+            let transaction = db.transaction("users", "readwrite");
+            transaction.addEventListener("error", event => {
+                console.error("transaction fail.");
+            });
+            transaction.addEventListener("complete", event => {
+                console.log("transaction success.");
+            });
+            // 获取存储对象
+            let store = transaction.objectStore("users");
+            for (let user of users) {
+                let request = store.add(user);
+                request.addEventListener("error", event => {
+                    console.error("fail store item into DB users.", event.target.error);
+                });
+                request.addEventListener("success", event => {
+                    console.log("success store item into DB users.", event.target.result);
+                });
+            }
+        });
+        request.addEventListener("upgradeneeded", event => {
+            let db = event.target.result;
+            if (db.objectStoreNames.contains("users")) {
+                db.deleteObjectStore("users");
+            }
+            db.createObjectStore("users", { keyPath: "id" });
+        });
+    </script>
+</body>
+
+</html>
