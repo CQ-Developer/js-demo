@@ -36,10 +36,10 @@
             // 开启事务
             let transaction = db.transaction("users", "readwrite");
             transaction.addEventListener("error", event => {
-                console.error("transaction fail.");
+                console.error("transaction fail.", event);
             });
             transaction.addEventListener("complete", event => {
-                console.log("transaction success.");
+                console.log("transaction success.", event);
             });
             // 获取存储对象
             let store = transaction.objectStore("users");
