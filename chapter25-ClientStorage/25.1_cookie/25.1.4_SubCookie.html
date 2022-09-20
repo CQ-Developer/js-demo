@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <!-- 25.1.4 子cookie
+    
+        为了绕过浏览器对每个域cookie数的限制, 有些开发者想出了子cookie的概念
+        子cookie是在单个cookie存储的小块数据, 本质上是使用cookie的值在单个cookie中存储多个键值对
+        
+        最常用的子cookie模式如下
+        name=name1=value1&name2=value2&name3=value3
+
+        子cookie的格式类似于查询字符串
+        这些值可以存储为单个cookie, 而不用单独存储为自己的键值对
+        结果就是网站或Web应用程序能够在单域cookie数限制下存储更多的结构化数据
+
+        要操作子cookie需要一些辅助方法
+        解析和序列化子cookie的方式不同, 且因为对子cookie的使用而变得更复杂
+        比如, 要取得某个子cookie, 就需要先取得cookie, 然后在解码值之前需要先像下面这样找到子cookie
+
+        如果实际开发中担心碰到每个域的cookie限制, 则可以考虑使用子cookie这个方法
+        此时要特别注意cookie的大小, 不要超过对单个cookie的大小限制
+    -->
+    <script>
+        class SubCookieUtil {
+            static get(name, subName) {
+                let subCookie = SubCookieUtil.getAll(name);
+                return subCookie ? subCookie[subName] : null;
+            }
+
+            static getAll(name) {
+                let cookieName = encodeURIComponent(name) + "=";
+                let cookieStart = document.cookie.indexOf(cookieName);
+                if (cookieStart > -1) {
+                    let cookieEnd = document.cookie.indexOf(";", cookieStart);
+                    if (cookieEnd == -1) {
+                        cookieEnd = document.cookie.length;
+                    }
+                    let cookieValue = document.cookie.substring(cookieStart + cookieName.length, cookieEnd);
+                    if (cookieValue.length > 0) {
+                        let result = {};
+                        let subCookies = cookieValue.split("&");
+                        for (let i = 0; i < subCookies.length; i++) {
+                            let parts = subCookies[i].split("=");
+                            result[decodeURIComponent(parts[0])] = decodeURIComponent(parts[1]);
+                        }
+                        return result;
+                    }
+                }
+                return null;
+            }
+
+            static set(name, subName, value, expires, path, doamin, secure) {
+                let subcookies = SubCookieUtil.getAll(name) || {};
+                subcookies[subName] = value;
+                SubCookieUtil.setAll(name, subcookies, expires, path, doamin, secure);
+            }
+
+            static setAll(name, subCookies, expires, path, domain, secure) {
+                let cookieText = encodeURIComponent(name) + "=";
+                let subcookieParts = new Array();
+                for (let subName in subcookies) {
+                    if (subName.length > 0 && subcookies.hasOwnProperty(subName)) {
+                        subcookieParts.push(`${encodeURIComponent(subName)}=${encodeURIComponent(subcookies[subName])}`);
+                    }
+                }
+                if (subcookieParts.length > 0) {
+                    cookieText += subcookieParts.join("&");
+                    if (expires instanceof Date) {
+                        cookieText += `; expires=${expires.toGMTString()}`;
+                    }
+                    if (path) {
+                        cookieText += `; path=${path}`;
+                    }
+                    if (domain) {
+                        cookieText += `; domain=${domain}`;
+                    }
+                    if (secure) {
+                        cookieText += `; secure`;
+                    }
+                } else {
+                    cookieText += `; expires=${(new Date(0)).toGMTString()}`;
+                }
+                document.cookie = cookieText;
+            }
+        }
+    </script>
+</body>
+
+</html>
