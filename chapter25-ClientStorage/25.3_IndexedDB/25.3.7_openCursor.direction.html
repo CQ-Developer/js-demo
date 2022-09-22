@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <!-- 25.3.7 设置游标方向
+        
+        https://developer.mozilla.org/en-US/docs/Web/API/IDBObjectStore/openCursor
+
+        openCursor()方法实际上可以接收两个参数, 第一个是IDBKeyRange的实例, 第二个是表示方向的字符串
+        通常, 游标都是从对象存储的第一条记录开始, 每次调用continue()或advance()都会向后最后一条记录前进
+        这样的游标默认方向为next
+        如果对象存储中有重复的记录, 可能需要游标跳过那些重复的项
+        为此, 可以给openCursor()的第二个参数传入nextunique
+
+        注意, openCursor()的第一个参数是null, 表示默认的键范围是所有值
+        此游标会遍历对象存储中给的记录, 从第一条记录开始迭代, 到最后一条记录, 但会跳过重复的记录
+
+        另外, 也可以创建在对象存储中反向移动的游标, 从最后一项开始向第一项移动
+        此时需要给openCursor()传入prev或prevunique作为第二个参数
+
+        在使用prev或prevunique打开游标时, 每次调用continue()或advance()都会在对象存储中反向移动游标
+    -->
+    <script>
+        let transaction = db.transaction("users");
+        let store = transaction.objectStore("users");
+        // 向后一定并去重
+        let request1 = store.openCorsor(null, "nextunique");
+        // 向前移动并去重
+        let request2 = store.openCorsor(null, "prevunique");
+    </script>
+</body>
+
+</html>

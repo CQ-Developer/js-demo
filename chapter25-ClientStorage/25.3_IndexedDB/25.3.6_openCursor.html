@@ -7,31 +7,53 @@
 
 <body>
 
-    <!-- 25.3.7 设置游标方向
-        
-        https://developer.mozilla.org/en-US/docs/Web/API/IDBObjectStore/openCursor
+    <!-- 25.3.6 键范围 https://developer.mozilla.org/en-US/docs/Web/API/IDBKeyRange
 
-        openCursor()方法实际上可以接收两个参数, 第一个是IDBKeyRange的实例, 第二个是表示方向的字符串
-        通常, 游标都是从对象存储的第一条记录开始, 每次调用continue()或advance()都会向后最后一条记录前进
-        这样的游标默认方向为next
-        如果对象存储中有重复的记录, 可能需要游标跳过那些重复的项
-        为此, 可以给openCursor()的第二个参数传入nextunique
+        使用游标会给人一种不太理想的感觉, 因为获取数据的方式受到了限制
+        使用键范围可以让游标更容易管理
+        有四种方式指定键范围
 
-        注意, openCursor()的第一个参数是null, 表示默认的键范围是所有值
-        此游标会遍历对象存储中给的记录, 从第一条记录开始迭代, 到最后一条记录, 但会跳过重复的记录
+        第一种是使用only方法并传入想要获得的键
+        const onlyRange = IDBKeyRange.only("007);
+        这个范围保证只获取键为007的值, 使用这个范围创建的游标类似于直接访问对象存储并调用get("007")
 
-        另外, 也可以创建在对象存储中反向移动的游标, 从最后一项开始向第一项移动
-        此时需要给openCursor()传入prev或prevunique作为第二个参数
+        第二种键范围可以定义结果集的下限
+        下表表示游标开始的位置
+        例如, 下面键范围保证游标从007这个键开始, 直到最后
+        const lowerRange = IDBKeyRange.lowerBound("007"); // 从007开始记录直到最后
+        如果想从007后面的记录开始, 可以再传入第二个参数true
+        const lowerRange = IDBKeyRange.lowerBound("007", true); // 从007的下一条开始记录直到最后
 
-        在使用prev或prevunique打开游标时, 每次调用continue()或advance()都会在对象存储中反向移动游标
+        第三种键范围可以定义结果集的上限, 通过调用upperBound()方法可以指定游标不会越过的记录
+        下面的键范围保证游标从头开始并在到达键为ace的记录停止
+        const upperRange = IDBKeyRange.upperBound("ace"); // 从头开始到ace记录为止
+        如果不想包含指定的键, 可以在第二个参数传入true
+        const upperRange = IDBKeyRange.upperBound("ace", true); // 从头开始到ace的前一条记录位置
+
+        要同时指定上限和下限, 可以使用bound()方法
+        这个方法接收四个参数: 下限的键, 上限的键, 可选的布尔值表示是否跳过下限和可选的布尔值表示是否跳过上限
+        const bundRange = IDBKeyRange.bound("007", "ace"); // 从007记录开始到ace记录停止
+        const bundRange = IDBKeyRange.bound("007", "ace", true); // 从007的下一条记录开始到ace记录停止
+        const bundRange = IDBKeyRange.bound("007", "ace", true, true); // 从007的下一条记录开始到ace的前一条记录停止
+        const bundRange = IDBKeyRange.bound("007", "ace", false, true); // 从007记录开始到ace的前一条记录停止
     -->
     <script>
-        let transaction = db.transaction("users");
-        let store = transaction.objectStore("users");
-        // 向后一定并去重
-        let request1 = store.openCorsor(null, "nextunique");
-        // 向前移动并去重
-        let request2 = store.openCorsor(null, "prevunique");
+        // 定义了范围之后, 把它传给openCursor()方法, 就可以得到位于该范围内的游标
+        // 这个例子只会输出从键为007的记录开始到键为ace的记录结束的对象, 比上一节的例子要少
+        const store = db.transaction("users").objectStore("users");
+        const range = IDBKeyRange.bound("007", "ace");
+        const request = store.openCursor(range);
+        request.onsuccess = function (event) {
+            const cursor = event.target.result;
+            // 永远要检查
+            if (cursor) {
+                console.log(`Key: ${cursor.key}, Value: ${JSON.stringify(cursor.value)}`);
+                // 移动找到下一条记录
+                cursor.continue();
+            } else {
+                console.log("Done!");
+            }
+        };
     </script>
 </body>
 
