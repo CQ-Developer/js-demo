@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <!-- 25.3.8 索引
+
+        https://developer.mozilla.org/en-US/docs/Web/API/IDBObjectStore/index
+        https://developer.mozilla.org/en-US/docs/Web/API/IDBObjectStore/indexNames
+        https://developer.mozilla.org/en-US/docs/Web/API/IDBObjectStore/createIndex
+        https://developer.mozilla.org/en-US/docs/Web/API/IDBObjectStore/deleteIndex
+        
+        https://developer.mozilla.org/en-US/docs/Web/API/IDBIndex
+        https://developer.mozilla.org/en-US/docs/Web/API/IDBIndex/openKeyCursor
+        https://developer.mozilla.org/en-US/docs/Web/API/IDBIndex/get
+        https://developer.mozilla.org/en-US/docs/Web/API/IDBIndex/getKey
+
+        对某些数据集,可能需要为对象存储指定多个键
+        例如, 如果同时记录了用户ID和用户名, 那可能需要通过任何一种方式来获取用户数据
+        为此, 可以考虑将用户ID作为主键, 然后在用户名上创建索引
+
+        createIndex()的第一个参数是索引的名称, 第二个参数是索引属性的名称, 第三个参数是包含键unique的options对象
+        这个选项中的unique应该必须指定, 表示这个键是否在所有记录中唯一
+
+        createIndex()返回的是IDBIndex实例
+        在对象存储上调用index()方法也可以得到同一个实例
+
+        索引非常像对象存储
+        可以在索引上使用openCursor()方法创建新游标, 这个游标与在对象存储上调用openCursor()创建的游标完全一样
+        只是其result.key属性中保存的是索引键, 而不是主键
+
+        使用openCursor()方法也可以在索引上创建特殊游标, 只返回每条记录的主键
+        这个方法接收的参数与openCursor()一样
+        最大的不同在于, event.result.key是索引键, 且event.result.value是主键而不是整个记录
+
+        可以使用get()方法并传入索引键通过索引取得单条记录
+
+        如果想只取得给定索引键的主键, 可以使用getKey()方法
+        这样也会创建一个新请求, 但result.value等于主键而不是整个记录
+
+        任何时候, 都可以使用IDBIndex对象的下列属性取得索引的相关信息
+        - name: 索引的名称
+        - keyPath: 调用createIndex()时传入的属性路径
+        - objectStore: 索引对应的对象存储
+        - unique: 表示索引键是否唯一的布尔值
+
+        对象存储自身也有一个indexNames属性, 保存着与之相关索引的名称
+
+        对象存储上调用deleteIndex()方法并传入索引的名称可以删除索引
+        因为删除索引不会影响对象存储中的数据, 所以这个操作没有回调
+    -->
+    <script>
+        let transaction = db.transaction("users");
+        let objectStore = transaction.objectStore("users");
+
+        // 创建新索引, 首先要取得对象存储的引用, 然后向下面的例子一样调用createIndex()
+        let index1 = objectStore.createIndex("username", "username", { unique: true });
+
+        // 要使用一个已存在的名为username的索引
+        let index2 = objectStore.index("username");
+
+        // 在索引上使用openCursor()
+        let request3 = index2.openCursor();
+        request3.onsuccess = (event) => {};
+
+        // 返回每条记录的主键
+        // event.result.key是索引键
+        // event.result.value是主键
+        let request4 = index2.openKeyCursor();
+        request4.onsuccess = (event) => {};
+
+        // 通过get()获得单条记录
+        let request5 = index2.get("007");
+        request5.onsuccess = (event) => {};
+        request5.onerror = (event) => {};
+
+        // 通过getKey()获取给定索引键的主键
+        // event.target.result.key是索引键
+        // event.target.result.value是主键
+        let reuqest6 = index2.getKey("007");
+        request6.onsuccess = (event) => {};
+
+        // indexNames
+        let indexNames = objectStore.indexNames;
+        for (let indexName in indexNames) {
+            let index = objectStore.index(indexName);
+            console.log(`Index name: ${index.name}, KeyPath: ${index.keyPath}, Unique: ${index.unique}`);
+        }
+
+        // 删除索引
+        objectStore.deleteIndex("username");
+    </script>
+</body>
+
+</html>
