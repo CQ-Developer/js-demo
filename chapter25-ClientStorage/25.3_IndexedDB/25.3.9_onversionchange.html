@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <!-- 25.3.9 并发问题
+    
+        https://developer.mozilla.org/en-US/docs/Web/API/IDBDatabase/versionchange_event
+        https://developer.mozilla.org/en-US/docs/Web/API/IDBDatabase/close
+        https://developer.mozilla.org/en-US/docs/Web/API/IDBDatabase/close_event
+
+        IndexedDB虽然是网页中的异步API, 但仍然存在并发问题
+        如果两个不同的浏览器标签同时打开了同一个网页, 则有可能出现一个网页尝试升级数据库而另一个尚未就绪的情形
+        有问题的操作是设置数据库为新版本, 而版本变化只能在浏览器只有一个标签页使用数据库时才能完成
+
+        第一次打开数据库时, 添加onversionchange事件处理程序非常重要
+        另一个同源标签页将数据库打开到新版本时, 将执行此回调
+        对这个事件最好的回应是立即关闭数据库, 以便完成版本升级
+
+        应该在每次成功打开数据库后都指定onversionchange事件处理程序
+        记住, onversionchange有可能会被其他标签页触发
+
+        通过始终都指定这些事件处理程序, 可以保证Web应用程序能够更好地处理与IndexedDB相关的并发问题
+    -->
+    <script>
+        let request = indexedDB.open("admin", 1);
+        request.onsuccess = (event) => {
+            let database = event.target.result;
+            database.onversionchange = () => {
+                database.close();
+            };
+        };
+    </script>
+</body>
+
+</html>
