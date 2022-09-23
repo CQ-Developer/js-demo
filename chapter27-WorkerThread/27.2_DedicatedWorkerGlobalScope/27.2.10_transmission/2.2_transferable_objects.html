@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <!-- 27.2.10 2.可转移对象
+    
+        如果把ArrayBuffer指定为可转移对象, 那么对缓冲区内存的引用就会从父上下文中抹去, 然后分配给工作者线程
+        下面的例子演示了这个操作, 结果分配给ArrayBuffer的内存从父上下文转移到了工作者线程
+
+        在其他类型的对象中嵌套可转移对象也完全没有问题
+        包装对象会被复制, 而嵌套的对象会被转移
+    -->
+    <script>
+        const worker = new Worker("./2.1_worker.js");
+
+        // 创建32位缓冲区
+        const arrayBuffer = new ArrayBuffer(32);
+        // 32
+        console.log(`page's buffer size: ${arrayBuffer.byteLength}`);
+
+        // 转移对象
+        worker.postMessage(arrayBuffer, [arrayBuffer]);
+        // 0
+        console.log(`page's buffer size: ${arrayBuffer.byteLength}`);
+    </script>
+</body>
+
+</html>
