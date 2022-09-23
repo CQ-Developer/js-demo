@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <!-- 27.2.10 3.SharedArrayBuffer
+    
+        注意
+        由于Spectre和Meltdown的漏洞, 所有主流浏览器在2018年1月就禁用了SharedArrayBuffer
+        从2019年开始, 有些浏览器开始逐步重新启用这一特性
+
+        既不克隆, 也不转移, SharedArrayBuffer作为ArrayBuffer能够在不同浏览器上下文间共享
+        在把SharedArrayBuffer传给postMessage()时, 浏览器只会传递原始缓冲区的引用
+        结果是, 两个不同的JS上下文会分别维护对同一个内存块的引用
+        每个上下文都可以随意修改这个缓冲区, 就跟修改常规的ArrayBuffer一样
+    -->
+    <script></script>
+</body>
+
+</html>
