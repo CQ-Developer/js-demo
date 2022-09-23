@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <!-- 27.2.9 1.使用postMessage()
+
+        https://developer.mozilla.org/en-US/docs/Web/API/Worker/postMessage
+        https://developer.mozilla.org/en-US/docs/Web/API/DedicatedWorkerGlobalScope/postMessage
+
+        最简单也最常用的形式是使用postMessage()传递序列化消息
+
+        对于传递简单的消息, 使用postMessage()在主线程和工作者线程之间传递消息, 与在两个窗口间传递消息非常像
+        主要区别是没有targetOrigin的限制, 该限制是针对Window.prototype.postMessage的, 对WorkerGlobalScrop.prototype.postMessage或Worker.prototype.postMessage没有影响
+        这样约定的原因很简单: 工作者线程脚本的源被限制为主页的源, 因此没有必要再去过滤
+    -->
+    <script>
+        const factorialWorker = new Worker("./factorialWorker.js");
+        factorialWorker.onmessage = event => console.log(event.data);
+        factorialWorker.postMessage(5);
+        factorialWorker.postMessage(7);
+        factorialWorker.postMessage(10);
+    </script>
+</body>
+
+</html>
