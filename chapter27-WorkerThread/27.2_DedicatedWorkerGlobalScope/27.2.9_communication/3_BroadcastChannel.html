@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <!-- 27.2.9 3.使用BroadcastChannel
+
+        https://developer.mozilla.org/en-US/docs/Web/API/BroadcastChannel
+    
+        同源脚本能够通过BroadcastChannel相互之间发送和接收消息
+        这种通道类型的设置比较简单, 不需要像MessageChannel那样转移乱糟糟的端口
+
+        这里页面在通过BroadcastChannel发送消息之前会先等1秒钟
+        因为这种信道没有端口所有权的概念, 所以如果没有实体监听这个信道, 广播的消息就不会有人处理
+        在这种情况下, 如果没有setTimeout(), 则由于初始化工作者线程的延迟, 就会导致消息已经发送了, 但工作者线程上的消息处理程序还没有就为
+    -->
+    <script>
+        const channel = new BroadcastChannel("worker_channel");
+        const worker = new Worker("./broadcastWorker.js");
+        channel.onmessage = ({data}) => console.log(`heard ${data} on page`);
+        setTimeout(() => channel.postMessage("foo"), 1000);
+    </script>
+</body>
+
+</html>
