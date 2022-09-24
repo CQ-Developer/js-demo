@@ -18,7 +18,21 @@
         结果是, 两个不同的JS上下文会分别维护对同一个内存块的引用
         每个上下文都可以随意修改这个缓冲区, 就跟修改常规的ArrayBuffer一样
     -->
-    <script></script>
+    <script>
+        const worker = new Worker("./3.1_worker.js");
+        // 创建1字节缓冲区
+        const sharedArrayBuffer = new SharedArrayBuffer(1);
+        // 创建1字节缓冲区视图
+        const view = new Uint8Array(sharedArrayBuffer);
+        // 父上下文赋值
+        view[0] = 1;
+        // 监听工作者线程消息
+        worker.addEventListener("message", () => {
+            console.log(`buffer value after worker modification: ${view[0]}`);
+        });
+        // 发送对sharedArrayBuffer的引用
+        worker.postMessage(sharedArrayBuffer);
+    </script>
 </body>
 
 </html>
