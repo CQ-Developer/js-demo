@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <!-- 27.3.1 共享工作者线程简介
+            
+        1.创建共享工作者线程
+
+        与专用工作者线程一样, 创建共享工作者线程非常常用的方式是通过加载JS文件创建
+        此时, 需要给SharedWorker构造函数传入文件路径, 该构造函数在后台异步加载脚本并实例化共享工作者线程
+
+        可以基于绝对路径创建, 也可以基于相对路径创建
+        也可以在行内脚本中创建共享工作者线程, 但这样做没有意义
+        因为每个基于行内脚本字符串创建的Blob都会被赋予自己唯一的浏览器内部URL, 所以行内脚本中创建的共享工作者线程始终是唯一的
+    -->
+    <script>
+        const sharedWorker = new SharedWorker("./emptySharedWorker.js");
+        console.log(sharedWorker);
+    </script>
+</body>
+
+</html>

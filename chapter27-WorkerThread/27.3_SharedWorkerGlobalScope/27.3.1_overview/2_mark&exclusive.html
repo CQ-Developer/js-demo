@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <!-- 27.3.1 共享工作者线程简介
+    
+        2.SharedWorker表示与独占
+
+        共享工作者线程与专用工作者线程的一个重要区别在于:
+        虽然Worker()构造函数始终会创建新实例, 而SharedWorker()则只会在相同的标识不存在的情况下才会创建新实例
+        如果的确存在与标识匹配的共享工作者线程, 则只会与已有共享者线程建立新的连接
+
+        共享工作者线程标识源自解析后的脚本URL, 工作者线程名和文档源
+
+        因为可选的工作者线程名称是共享工作者线程标识的一部分, 所有不同的线程名称会强制浏览器创建多个共享工作者线程
+
+        共享线程, 顾名思义, 可以在不同标签页, 不同窗口, 不同内嵌框架或同源的其他工作者线程之间共享
+        因此, 创建一个共享工作者线程的脚本如果在多个标签页运行, 只会在第一次执行时创建一个共享工作者线程, 后续执行会连接到该线程
+    -->
+    <script>
+        /**
+         * 实例化一个共享工作者线程并添加两个连接
+         * 
+         * 实例化一个共享工作者线程
+         * - 全部基于同源调用构造函数
+         * - 所有脚本解析为相同的URL
+         * - 所有线程都有相同的名称
+         */
+        new SharedWorker("./sharedWorker.js");
+        new SharedWorker("./sharedWorker.js");
+        new SharedWorker("./sharedWorker.js");
+
+        /**
+         * 类似的, 因为下面三个脚本字符串都解析到相同的URL, 所以也只会创建一个共享工作者线程
+         * 
+         * 实例化一个共享工作者线程
+         * - 全部基于同源调用构造函数
+         * - 所有脚本解析为相同的URL
+         * - 所有线程都有相同的名称
+         */
+        new SharedWorker("./sharedWorker");
+        new SharedWorker("sharedWorker");
+        new SharedWorker("https://www.example.com/sharedWorker");
+
+        /**
+         * 对下面的例子而言, 一个名为foo, 另一个名为bar, 尽管它们同源且脚本URL相同
+         * 
+         * 实例化一个共享工作者线程
+         * - 全部基于同源调用构造函数
+         * - 所有脚本解析为相同的URL
+         * - 一个线程名称为foo, 另一个线程名称为bar
+         */
+        new SharedWorker("./sharedWorker.js", {name: "foo"});
+        new SharedWorker("./sharedWorker.js", {name: "foo"});
+        new SharedWorker("./sharedWorker.js", {name: "bar"});
+
+        /**
+         * 初始化共享线程的脚本只会限制URL, 因此下面的代码会创建两个共享工作者线程, 尽管加载了相同的脚本
+         * 
+         * 实例化一个共享工作者线程
+         * - 全部基于同源调用的构造函数
+         * - ?导致了两个不同的URL
+         * - 所有线程都有相同的名称
+         * 
+         * 如果该脚本在两个不同的标签页中运行, 同样也只会创建两个共享工作者线程
+         * 每个构造函数都会检查匹配的共享工作者线程, 然后连接到已存在的那个
+         */
+        new SharedWorker("./sharedWorker.js");
+        new SharedWorker("./sharedWorker.js?");
+    </script>
+</body>
+
+</html>
