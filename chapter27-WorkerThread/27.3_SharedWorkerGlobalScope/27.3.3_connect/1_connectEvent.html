@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <!-- 27.3.3 连接到共享工作者线程
+        
+        https://developer.mozilla.org/en-US/docs/Web/API/SharedWorkerGlobalScope/connect_event
+
+        每次调用SharedWorker()构造函数, 无论是否创建了工作者线程, 都会在共享线程内部触发connect事件
+
+        发生connect事件时, SharedWorker()构造函数会隐式地创建MessageChannel实例, 并把MessagePort实例的所有权唯一地转移给SharedWorker的实例
+        这个MessagePort实例会保存在connect事件对象的ports数组中
+        一个连接事件只能代表一个连接, 因此可以假定ports数组的长度等于1
+    -->
+    <script>
+        for (let i = 0; i < 5; i++) {
+            new SharedWorker("./1_sharedWorker.js");
+        }
+    </script>
+</body>
+
+</html>
