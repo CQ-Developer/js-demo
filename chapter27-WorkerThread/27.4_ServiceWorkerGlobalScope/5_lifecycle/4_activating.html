@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <!-- 27.4.5 理解服务工作者线程的生命周期
+
+        https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerRegistration/active
+        https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerGlobalScope/activate_event
+    
+    4.激活中状态
+    
+        activating状态表示ServiceWorker已经被浏览器选中即将变成可以控制页面的ServiceWorker
+        如果浏览器中没有活动ServiceWorker, 这个新ServiceWorker会自动到达activating状态
+        如果有一个活动ServiceWorker, 则这个作为替代的ServiceWorker可以通过如下方式进入activating状态
+            - 原有ServiceWorker控制的客户端数量变为0, 这通常意味着所有受控制的浏览器标签页都被关闭
+            - 在下一个导航事件时, 新ServiceWorker会到达激活中状态, 已安装的ServiceWorker调用self.skipWaiting(), 这样可以立即生效, 而不必等待一次导航事件
+
+        在activating状态下, 不能像activated状态中那样执行发送请求或推送事件的操作
+
+        在客户端, 这个阶段大致可以通过检查ServiceWorkerRegistration.active是否被设置为一个ServiceWorker实例来确定
+
+        注意, ServiceWorkerRegistration.active属性表示ServiceWorker可能在activating状态, 也可能在activated状态
+
+        在这个ServiceWorker内部, 可以通过给activate事件添加处理程序来获悉
+        self.addEventListener("activate", (event) => console.log("Service worker is in the activating state"));
+
+        activate事件表示可以将老ServiceWorker清理掉了, 该事件经常用于清除旧缓存数据和迁移数据库
+
+        activate事件也继承自ExtendableEvent, 因此也支持waitUntil()方法, 可以延迟过度到activated状态, 或者基于Promise的reject过度到redundant状态
+
+        注意
+        ServiceWorker中的activate事件并不代表ServiceWorker正在控制客户端
+    -->
+    <script>
+        navigator.serviceWorker.register("./serviceWorker.js").then((registration) => {
+            if (registration.active) {
+                console.log("Service worker is in the activating/activated state");
+            }
+        });
+    </script>
+</body>
+
+</html>
