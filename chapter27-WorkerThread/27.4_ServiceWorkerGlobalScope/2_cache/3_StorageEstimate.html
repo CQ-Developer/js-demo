@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <!-- 27.4.2 服务工作者线程缓存
+
+        https://developer.mozilla.org/en-US/docs/Web/API/StorageManager/estimate
+    
+    3.最大存储空间
+
+        浏览器需要限制缓存占用的磁盘空间, 否则无限制存储势必会造成滥用
+        该存储空间的限制没有任何规范定义, 完全由浏览器供应商的个人喜好决定
+
+        使用 StorageEstimate API 可以近似地获悉有多少空间可用, 以及当前使用了多少空间
+        使用字节为单位, 只在安全的上下文中可用
+
+        根据 Service Worker 规范
+        这些并不是确切的数值, 考虑到压缩, 去重和混淆等安全原因, 该数字并不精确
+    -->
+    <script>
+        navigator.storage.estimate().then(console.log);
+    </script>
+</body>
+
+</html>
