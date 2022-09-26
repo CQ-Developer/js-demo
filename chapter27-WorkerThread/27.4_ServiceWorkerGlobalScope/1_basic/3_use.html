@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <!-- 27.4.1 服务工作者线程基础
+    
+        3.使用ServiceWorkerContainer对象
+
+        https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerContainer#events
+        https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerContainer#properties
+        https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerContainer#methods
+
+        ServiceWorkerContainer接口是浏览器对服务工作者线程生态的顶部封装
+        它为管理服务工作者线程状态和生命周期提供了遍历
+
+        ServiceWorkerContainer支持以下事件处理程序
+        - controllerchange: 在ServiceWorkerContainer触发controllerchange事件时会调用指定的事件处理程序
+            - 此事件在获得新激活的ServiceWorkerRegistration时触发
+            - 此事件也可以使用navigator.serviceWorker.addEventListener("controllerchange", handler)处理
+        - error: 在关联的服务工作者线程触发ErrorEvent错误事件时会调用指定的事件处理程序
+            - 此事件在关联的服务工作者线程内部抛出错误时触发
+            - 此事件也可以使用navigator.serviceWorker.addEventListener("error", handler)处理
+        - message: 在服务工作者线程触发MessageEvent事件时会调用指定的事件处理程序
+            - 此事件在服务脚本向父上下文发送消息时触发
+            - 此事件也可以使用navigator.serviceWorker.addEventListener("message", handler)处理
+
+        ServiceWorkerContainer支持下列属性
+        - ready: 返回Promise, resolve为激活的ServiceWorkerRegistration对象, 该Promise不会reject
+        - controller: 返回与当前页面关联的解惑的ServiceWorker对象, 如果没有激活的服务工作者线程则返回null
+
+        ServiceWorkerContainer支持下列方法
+        - register(): 使用接收的url和options对象创建或更新ServiceWorkerRegistration
+        - getRegistration(): 返回Promise, resolve为与提供的作用域匹配的ServiceWorkerRegistration对象, 如果没有匹配的服务工作者线程则返回null
+        - getRegistrations(): 返回Promise, resolve为ServiceWorkerContainer关联的ServiceWorkerRegistration对象的数组, 如果没有关联的服务工作者线程则返回空数组
+        - startMessage(): 开始传送通过Client.postMessage()派发的消息
+    -->
+    <script>
+        // SerivceWorkerContainer始终可以在客户端上下文中访问
+        console.log(navigator.serviceWorker);
+    </script>
+</body>
+
+</html>
