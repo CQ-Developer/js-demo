@@ -28,8 +28,10 @@
     <script>
         navigator.serviceWorker.register("./serviceWorker.js")
             .then((registration) => {
-                registration.installing.addEventListener("statechange", (event) => {
-                    const state = event.target.state;
+                // registration.installing.addEventListener("statechange", (event) => {
+                //     console.log("state changed to", event.target.state);
+                // });
+                registration.installing.addEventListener("statechange", ({ target: { state } }) => {
                     console.log("state changed to", state);
                 });
             });
