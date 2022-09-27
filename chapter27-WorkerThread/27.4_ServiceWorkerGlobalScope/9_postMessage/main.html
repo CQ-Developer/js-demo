@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <!-- 27.4.9 服务工作者线程消息
+
+        https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerGlobalScope/message_event
+    
+        与Worker和SharedWorker一样, ServiceWorker也能与客户端通过postMessage()交换消息
+        实现通信的最简单方式是向活动工作者线程发送一条消息, 然后使用事件对象发送回应
+        发送给ServiceWorker的消息可以在全局作用域处理, 而发送会客户端的消息则只可以在ServiceWorkerContext对象上处理
+
+        因为客户端和ServiceWorker可以相互之间发送消息, 所以通过MessageChannel或BroadcastChannel实现通信也是可能的
+    -->
+    <script>
+        navigator.serviceWorker.addEventListener("message", ({ data }) => {
+            console.log("client heard:", data);
+        });
+        navigator.serviceWorker.register("./serviceWorker.js").then((registration) => {
+            // 可以使用active
+            if (registration.active) {
+                registration.active.postMessage("foo");
+            }
+            // 也可以简单的使用serviceWorker.controller
+            if (registration.serviceWorker.controller) {
+                registration.serviceWorker.controller.postMessage("foo");
+            }
+        });
+    </script>
+</body>
+
+</html>
