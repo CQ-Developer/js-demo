@@ -10,13 +10,49 @@
     <!-- 27.4.5 理解服务工作者线程的生命周期
     
         https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerRegistration/active
+        https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerContainer/controllerchange_event
+        https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerContainer/ready
 
     5.已激活状态
 
         activated状态表示ServiceWorker正在控制一个或多个客户端
         在这个状态, ServiceWorker会捕获其作用域中的fetch()事件, 通知和推送事件
+
+        在客户端, 这个阶段大致可以通过检查ServiceWorkerRegistration.active是否被设置为一个ServiceWorker实例来确定
+        注意, ServiceWorkerRegistration.active属性表示ServiceWorker可能在激活中状态, 也可能在已激活状态
+
+        更可靠的确定ServiceWorker处于已激活状态的一种方式是检查ServiceWorkerRegistration的controller属性
+        该属性会返回激活的ServiceWorker实例, 即控制页面的实例
+
+        在新ServiceWorker控制客户端时, 该客户端中的ServiceWorkerContainer会触发controllerchange事件
+        另外, 也可以使用ServiceWorkerContainer.ready的Promise来检测活动ServiceWorker
+        该Promise会在当前页面拥有活动ServiceWorker时立即resolve
     -->
-    <script></script>
+    <script>
+        // active
+        navigator.serviceWorker.register("./serviceWorker.js").then((registration) => {
+            if (registration.active) {
+                console.log("Service worker is in the activating/activated state");
+            }
+        });
+
+        // controller
+        navigator.serviceWorker.register("./serviceWorker.js").then((registration) => {
+            if (registration.controller) {
+                console.log("Service worker is in the activating/activated state");
+            }
+        });
+
+        // controllerchange
+        navigator.serviceWorker.addEventListener("controllerchange", () => {
+            console.log("A new Service worker is controlling this client");
+        });
+
+        // ready
+        navigator.serviceWorker.ready.then(() => {
+            console.log("A new Service worker is controlling this client");
+        });
+    </script>
 </body>
 
 </html>
