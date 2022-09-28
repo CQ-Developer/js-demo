@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <!--
+        https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
+
+        resolve()和reject()只要有一个被调用
+        状态转换就无法再次改变
+    -->
+    <script>
+        let p = new Promise((resolve, reject) => {
+            // resolve()将状态变为fulfilled
+            resolve();
+            // reject()没有效果
+            reject();
+        });
+        console.log(p);
+    </script>
+</body>
+
+</html>
