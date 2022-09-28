@@ -10,7 +10,35 @@
     <!--
         https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/resolve
     -->
-    <script></script>
+    <script>
+        // 通过构造函数直接创建一个 resoved Promise
+        let pms1 = new Promise((resolve, reject) => resolve());
+        console.log("pms1:", pms1);
+
+        // 通过 Promise.resolve() 直接创建一个 resolved Promise
+        let pms2 = Promise.resolve();
+        console.log("pms2:", pms2);
+
+        // 使用 Promise.resolve() 可以将将任何值转换为 Promise
+        let pms3 = Promise.resolve(3);
+        console.log("pms3:", pms3);
+
+        // 多余参数会被忽略
+        let pms4 = Promise.resolve(4, 5);
+        console.log("pms4:", pms4);
+
+        // 可以包装 Promise 本身
+        let pms5 = Promise.resolve(pms4);
+        console.log("pms5:", pms5);
+
+        // 幂等性
+        let pms6 = Promise.resolve(Promise.resolve(pms5));
+        console.log("pms6:", pms6);
+
+        // 即使包装错误对象, Promise 也是 fulfilled 的
+        let pms7 = Promise.resolve(new Error("myerror"));
+        console.log("pms7:", pms7);
+    </script>
 </body>
 
 </html>
