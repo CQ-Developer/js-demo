@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <!-- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then -->
+    <script>
+        // instance method
+        // then(onFulFilled, onRejected)
+        let pms1 = new Promise((resolve, reject) => setTimeout(resolve, 0, "some value"));
+        pms1.then((value) => console.log("pms1 resolved:", value), (reason) => console.log("pms1 rejected:", reason));
+        
+        // instance method
+        // then(onFulFilled, onRejected)
+        let pms2 = new Promise((resolve, reject) => setTimeout(reject, 0, "some reason"));
+        pms2.then((value) => console.log("pms2 resolved:", value), (reason) => console.log("pms2 rejected:", reason));
+
+        // both parameters are optional and mutex
+        pms1.then((value) => console.log("pms1 resolved:", value));
+        pms2.then(undefined, (reason) => console.log("pms2 rejected:", reason));
+
+        // the return value of then() is a new Promise
+        // a resolved Promise use Promise.resovle() to wrapper the value into a new Promise
+        let pms3 = Promise.resolve("some value");
+
+        // Promise will pass backwards when there has none handler function
+        let pms4 = pms3.then();
+        setTimeout(console.log, 0, "pms4", pms4);
+
+        // if there is a new return value in the handler function
+        // this new return value will pass backwards
+        let pms5 = pms3.then(() => "some new value");
+        setTimeout(console.log, 0, "pms5", pms5);
+
+        // throw Error will return a rejected Promise
+        let pms6 = pms3.then(() => {
+            throw "some error";
+        });
+        setTimeout(console.log, 0, "pms6", pms6);
+
+        // an Error object will not turn Promise into rejected state
+        let pms7 = pms3.then(() => new Error("some error"));
+        setTimeout(console.log, 0, "pms7", pms7);
+
+        // onRejected handler in then() will wrapper reason with Promise.resolve()
+        // and turn rejected state into fulfilled state.
+        // this is because onRejected handler is going to resolve the problem
+        // not throw them again
+        let pms8 = Promise.reject("some problem");
+        let pms9 = pms8.then(undefined, () => "problem resolved");
+        setTimeout(console.log, 0, "pms9", pms9);
+
+        // even an Error object
+        let pms10 = pms8.then(undefined, () => new Error("resolved with an error object"));
+        setTimeout(console.log, 0, "pms10", pms10);
+    </script>
+</body>
+
+</html>
