@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <!-- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise -->
+    <script>
+        console.log("begin");
+
+        // whatever how many handlers in the Promise
+        // they always execute as order as they defined
+        let p = Promise.resolve()
+            .then(() => console.log(1))
+            .then(() => new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    console.log(2);
+                    resolve();
+                }, 1500);
+            }))
+            .then(() => new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    console.log(3);
+                    reject();
+                }, 500);
+            }))
+            .catch(() => new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    console.log(4);
+                    resolve();
+                }, 1000);
+            }))
+            .finally(() => console.log(5));
+
+        console.log("end");
+    </script>
+</body>
+
+</html>
