@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <script>
+        async function test() {
+            console.log(1);
+
+            // await关键字会让函数退出执行
+            // 等获得结果会将结果解包并恢复执行
+            // let p = new Promise((resolve, reject) => setTimeout(resolve, 1000, 3));
+            console.log(await 3);
+
+            console.log(4);
+        }
+
+        test();
+
+        console.log(2);
+    </script>
+</body>
+
+</html>
