@@ -47,7 +47,7 @@
 
         // onRejected handler in then() will wrapper reason with Promise.resolve()
         // and turn rejected state into fulfilled state.
-        // this is because onRejected handler is going to resolve the problem
+        // this is because onRejected handler is used to resolve the problem
         // not throw them again
         let pms8 = Promise.reject("some problem");
         let pms9 = pms8.then(undefined, () => "problem resolved");
