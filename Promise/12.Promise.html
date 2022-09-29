@@ -15,22 +15,16 @@
         let p = Promise.resolve()
             .then(() => console.log(1))
             .then(() => new Promise((resolve, reject) => {
-                setTimeout(() => {
-                    console.log(2);
-                    resolve();
-                }, 1500);
+                console.log(2);
+                setTimeout(resolve, 1500);
             }))
             .then(() => new Promise((resolve, reject) => {
-                setTimeout(() => {
-                    console.log(3);
-                    reject();
-                }, 500);
+                console.log(3);
+                setTimeout(reject, 500);
             }))
             .catch(() => new Promise((resolve, reject) => {
-                setTimeout(() => {
-                    console.log(4);
-                    resolve();
-                }, 1000);
+                console.log(4);
+                setTimeout(resolve, 1000);
             }))
             .finally(() => console.log(5));
 

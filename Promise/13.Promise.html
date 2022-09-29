@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <script>
+        // error will pass downstream until the onRejected handler
+        // the onRejected handler will corretc the error and go on
+        Promise.resolve(1)
+            // 2 fulfilled
+            .then((value) => Promise.resolve(++value))
+            // 3 fulfilled
+            .then((value) => Promise.resolve(++value))
+            // 4 rejected
+            .then((value) => Promise.reject(++value))
+            // skip
+            .then((value) => Promise.resolve(++value))
+            // skip
+            .then((value) => Promise.resolve(++value))
+            // 5 fulfilled
+            .catch((value) => Promise.resolve(++value))
+            // print
+            .then((value) => console.log(value));
+    </script>
+</body>
+
+</html>
