@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <script>
+        // 用在普通函数上
+        async function aoo() {}
+
+        // 用在函数表达式上
+        let boo = async function () {};
+
+        // 用在箭头函数上
+        let coo = async () => {};
+
+        class Doo {
+            // 用在类的方法上
+            async doo() {}
+        }
+
+        // 没有await关键的异步函数和普通函数没有区别
+        async function foo() {
+            console.log(1);
+        }
+        foo();
+        console.log(2);
+    </script>
+</body>
+
+</html>

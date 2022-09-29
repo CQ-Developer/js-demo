@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <script>
+        async function aoo() {
+            console.log(1);
+            // 也可以返回一个Promise
+            return Promise.reject(3);
+        }
+        
+        // 可以在返回的Promise中cath()到
+        aoo().catch(console.log);
+        
+        console.log(2);
+    </script>
+</body>
+
+</html>

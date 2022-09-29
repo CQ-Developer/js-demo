@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <script>
+        async function aoo() {
+            console.log(1);
+            // 在异步函数中抛出异常无法被捕获
+            throw 3;
+            // 错误后面的代码不会再执行
+            console.log(4);
+        }
+
+        // 可以在返回的Promise中cath()到
+        aoo().catch(console.log);
+        
+        console.log(2);
+    </script>
+</body>
+
+</html>

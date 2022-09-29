@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <script>
+        async function aoo() {
+            console.log(1);
+            // 异步函数的返回值会被包装成一个Promise
+            return 3;
+        }
+        aoo().then(console.log);
+        console.log(2);
+    </script>
+</body>
+
+</html>
