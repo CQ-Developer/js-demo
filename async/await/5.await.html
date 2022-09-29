@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <script>
+        async function test() {
+            console.log(2);
+            // 代码的输出顺序
+            console.log(await Promise.resolve(4));
+            console.log(5);
+        }
+        
+        console.log(1);
+        test();
+        console.log(3);
+    </script>
+</body>
+
+</html>

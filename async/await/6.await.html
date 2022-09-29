@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <script>
+        async function aoo() {
+            console.log(2);
+            // 模拟一个异步执行
+            console.log(await new Promise((resolve, reject) => setTimeout(resolve, 0, 8)));
+            console.log(9);
+        }
+
+        async function boo() {
+            console.log(4);
+            console.log(await 6);
+            console.log(7);
+        }
+
+        // 观察输出结果
+        console.log(1);
+        aoo();
+        console.log(3);
+        boo();
+        console.log(5);
+    </script>
+</body>
+
+</html>
