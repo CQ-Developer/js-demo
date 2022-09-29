@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <!-- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/race -->
+    <script>
+        // focus first only
+        Promise.race([
+            new Promise((resolve, reject) => setTimeout(resolve, 300, 3)),
+            new Promise((resolve, reject) => setTimeout(resolve, 200, 2)),
+            new Promise((resolve, reject) => setTimeout(resolve, 100, 1)),
+        ])
+        .then((value) => console.log("p1:", value));
+
+        // focus first only
+        Promise.race([
+            new Promise((resolve, reject) => setTimeout(reject, 300, Error(3))),
+            new Promise((resolve, reject) => setTimeout(resolve, 200, 2)),
+            new Promise((resolve, reject) => setTimeout(reject, 100, Error(1))),
+        ])
+        .catch((value) => console.log("p2:", value));
+    </script>
+</body>
+
+</html>
